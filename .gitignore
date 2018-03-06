@@ -3,8 +3,8 @@
 application/config/database-local.php
 user_guide/
 
-application/*/views_compiled/*
-!application/*/views_compiled/index.html
+application/views_compiled/*
+!application/views_compiled/index.html
 
 application/cache/*
 !application/cache/index.html
