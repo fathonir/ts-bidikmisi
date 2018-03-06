@@ -1,0 +1,58 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+	position: relative;
+	min-height: 100%;
+}
+body {
+	/* Margin bottom by footer height */
+	margin-bottom: 80px;
+}
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 80px;
+	background-color: #f5f5f5;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+body > .container, body > .container-fluid {
+	padding: 60px 15px 0;
+}
+.container .text-center {
+	margin: 10px 0;
+}
+
+.container .page-header, .container-fluid .page-header {
+	margin-top: 15px;
+}
+
+.footer > .container {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+code {
+	font-size: 80%;
+}
+
+/* Override Bootstrap Style */
+.table > tbody > tr > th,
+.table > tbody > tr > td {
+	vertical-align: middle;
+}
+
+/* Bootstrap table add-on */
+.table.table-sm-condennsed {
+	
+}
+
+.table.table-xs-condennsed {
+	
+}

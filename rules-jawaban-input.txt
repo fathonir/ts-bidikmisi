@@ -1,0 +1,6 @@
+Jawaban   |
+Single         -> TEXT, TEXT_TEXT, CHECKBOX, CHECKBOX_INPUT, RADIO5_RADIO5
+Multichoice    -> RADIO, RADIO_INPUT
+MultiEntri     -> TEXT, TEXT_TEXT, CHECKBOX, CHECKBOX_INPUT
+MultiSelect    -> CHECKBOX, CHECKBOX_INPUT
+Multichoice_LR -> RADIO5_RADIO5
