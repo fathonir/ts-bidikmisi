@@ -2,17 +2,14 @@
 
 sessions/*
 !sessions/index.html
+assets/captcha/*
 application/config/database-local.php
-
 application/views_compiled/*
 !application/views_compiled/index.html
-
 application/cache/*
 !application/cache/index.html
-
 application/logs/*
 !application/logs/index.html
-
 !application/*/.htaccess
 
 composer.lock

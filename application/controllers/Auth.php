@@ -131,20 +131,21 @@ class Auth extends CI_Controller
 		$captcha_params = array(
 			'img_path'		=> './assets/captcha/',
 			'img_url'		=> base_url('assets/captcha/'),
-			'img_width'     => 180,
-			'img_height'    => 60,
-			'expiration'    => $this::CAPTCHA_TIMEOUT,
-			'word_length'   => 4,
-			'font_size'     => 28,
-			'pool'          => '0123456789',
+			'font_path'		=> realpath('./assets/fonts/OpenSans-Semibold.ttf'),
+			'img_width'		=> 180,
+			'img_height'	=> 60,
+			'expiration'	=> $this::CAPTCHA_TIMEOUT,
+			'word_length'	=> 4,
+			'font_size'		=> 32,
+			'pool'			=> '0123456789',
 			'img_id'		=> time(),
 
 			// White background and border, black text and red grid
-			'colors'        => array(
-				'background' => array(255, 255, 255),
-				'border' => array(0, 0, 0),
-				'text' => array(0, 0, 0),
-				'grid' => array(rand(0, 255), rand(0, 255), rand(0, 255))
+			'colors'		=> array(
+				'background'	=> array(255, 255, 255),
+				'border'		=> array(0, 0, 0),
+				'text'			=> array(0, 0, 0),
+				'grid'			=> array(rand(0, 127), rand(0, 127), rand(0, 127))
 			)
 		);
 		
@@ -153,9 +154,9 @@ class Auth extends CI_Controller
 		if ($captcha)
 		{
 			$data = array(
-				'captcha_time'  => $captcha['time'],
-				'ip_address'    => $this->input->ip_address(),
-				'word'          => $captcha['word'],
+				'captcha_time'	=> $captcha['time'],
+				'ip_address'	=> $this->input->ip_address(),
+				'word'			=> $captcha['word'],
 				'filename'		=> $captcha['filename']
 			);
 
