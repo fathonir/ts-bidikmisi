@@ -1,7 +1,8 @@
 .DS_Store
 
+sessions/*
+!sessions/index.html
 application/config/database-local.php
-user_guide/
 
 application/views_compiled/*
 !application/views_compiled/index.html
@@ -16,6 +17,7 @@ application/logs/*
 
 composer.lock
 
+user_guide/
 user_guide_src/build/*
 user_guide_src/cilexer/build/*
 user_guide_src/cilexer/dist/*
