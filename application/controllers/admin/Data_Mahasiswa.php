@@ -47,4 +47,16 @@ class Data_Mahasiswa extends MY_Controller
 	{
 		echo json_encode(['data' => $this->mahasiswa_model->list_all()]);
 	}
+	
+	public function update_notifikasi()
+	{
+		if ($this->input->method() == 'post')
+		{
+			$this->db->insert('notifikasi_email', [
+				'mahasiswa_id'	=> $this->input->post('id'),
+				'notifikasi'	=> $this->input->post('jenis'),
+				'waktu_kirim'	=> date('Y-m-d H:i:s')
+			]);
+		}
+	}
 }
