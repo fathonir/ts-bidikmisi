@@ -35,9 +35,10 @@ class Mahasiswa_model extends CI_Model
 	public function list_all()
 	{
 		return $this->db
-			->select('mahasiswa.id, kode_pt, nama_mahasiswa, tahun_masuk, tahun_lulus, mahasiswa.email, no_hp, username, password_plain')
+			->select('mahasiswa.id, kode_pt, nama_mahasiswa, tahun_masuk, tahun_lulus, mahasiswa.email, no_hp, username, password_plain, ps.waktu_pelaksanaan')
 			->from('mahasiswa')
 			->join('user', 'user.mahasiswa_id = mahasiswa.id', 'LEFT')
+			->join('plot_survei ps', 'ps.mahasiswa_id = mahasiswa.id', 'LEFT')
 			->get()->result();
 	}
 	

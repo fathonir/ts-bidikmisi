@@ -21,6 +21,7 @@
 						<th>Telpon</th>
 						<th>Username</th>
 						<th>Password</th>
+						<th>Status Tracer</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -51,7 +52,15 @@
 					{ data: 'email' },
 					{ data: 'no_hp' },
 					{ data: 'username' },
-					{ data: 'password_plain' }
+					{ data: 'password_plain' },
+					{
+						data: function(row, type, val, meta) {
+							if (row.waktu_pelaksanaan !== null)
+								return '<label class="label label-success">SUDAH</label>';
+							else
+								return '<label class="label label-default">BELUM</label>';
+						}
+					}
 				],
 				ordering: false
 			});
