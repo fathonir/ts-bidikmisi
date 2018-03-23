@@ -30,6 +30,7 @@
  * @author Fathoni <m.fathoni@mail.com>
  * @property Smarty_wrapper $smarty 
  * @property CI_Session $session
+ * @property CI_Input $input
  */
 class Site extends CI_Controller
 {
@@ -52,6 +53,33 @@ class Site extends CI_Controller
 		else
 		{
 			redirect(site_url('auth/login'));
+		}
+	}
+	
+	public function test_email_cli()
+	{
+		if (is_cli())
+		{
+			$this->load->library('email');
+
+			$this->email->from('no-reply@ristekdikti.go.id', 'Tracer Study Bidikmisi Ristekdikti');
+			$this->email->to(['m.fathoni@mail.com', 'cipto.bdg@gmail.com', 'ruddyjs@gmail.com']);
+
+			$this->email->subject('Email test dari sistem Tracer Study Bidikmisi Ristekdikti');
+			$this->email->message('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
+
+			if ($this->email->send())
+			{
+				echo "Berhasil";
+			}
+			else
+			{
+				echo "Gagal";
+			}
+		}
+		else
+		{
+			echo "Harus dari console";
 		}
 	}
 }
