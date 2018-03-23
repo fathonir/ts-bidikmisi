@@ -3,7 +3,7 @@
 sessions/*
 !sessions/index.html
 assets/captcha/*
-application/config/database-local.php
+application/config/*-local.php
 application/views_compiled/*
 !application/views_compiled/index.html
 application/cache/*
