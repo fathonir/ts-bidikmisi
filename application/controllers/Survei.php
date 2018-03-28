@@ -36,7 +36,14 @@ class Survei extends MY_Controller
 		$mahasiswa = $this->session->userdata('mahasiswa');
 		
 		$survei_id = 1; // Tracer Study Bidikmisi 2018
-		$survei = $this->survei_model->get_single_with_relations(1);
+		$survei = $this->survei_model->get_single_with_relations($survei_id);
+		
+		// Cek apakah sudah pernah mengisi
+		if ($this->plotsurvei_model->get_single($mahasiswa->id, $survei_id) != NULL)
+		{
+			$this->smarty->display('survei/isi_finished.tpl');
+			exit();
+		}
 		
 		if ($this->input->method() == 'post')
 		{

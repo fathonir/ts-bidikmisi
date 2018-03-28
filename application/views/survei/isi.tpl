@@ -8,7 +8,7 @@
 {block name='content'}
 	<h2 class="page-header">Form {$survei->nama_survei}</h2>
 	
-	<form action="{current_url()}" method="post">
+	<form action="{current_url()}" method="post" id="survei">
 		
 		<table class="table table-striped" style="margin-bottom: 0">
 			<thead>
@@ -164,4 +164,25 @@
 		</table>
 				
 	</form>
+{/block}
+{block name='footer-script'}
+	<script src="{base_url()}assets/jquery-validation/jquery.validate.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			/* Validation */
+			/*
+			$('#survei').validate({
+				rules: {
+					"f[1][1][F21]": 'required'
+				},
+				errorPlacement: function(error, element) {
+					// element.parent().parent().append(error);
+					var tbody = element.parentsUntil('table')[3];
+					var tr = $(tbody).append('<tr><td></td></tr>');
+					$(tr).append(error);
+				}
+			});
+			*/
+		});
+	</script>
 {/block}
