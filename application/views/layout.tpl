@@ -28,7 +28,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="{base_url()}">TS-BIDIKMISI</a>
+					<a class="navbar-brand" href="{base_url()}"><img src="{base_url()}assets/img/logo-ts.png" style="height: 30px" /></a>
 				</div>
 				<div id="navbar" class="collapse navbar-collapse">
 					
