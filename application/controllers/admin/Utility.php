@@ -83,4 +83,12 @@ class Utility extends MY_Controller
 			echo "Gagal";
 		}
 	}
+	
+	public function clear_isian()
+	{
+		$this->db->query("DELETE FROM \"TS_BM2018\"");
+		$this->db->query("DELETE FROM plot_survei");
+		$this->db->query("DELETE FROM hasil_survei");
+		echo "OK";
+	}
 }

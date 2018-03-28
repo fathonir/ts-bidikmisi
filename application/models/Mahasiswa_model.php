@@ -35,12 +35,25 @@ class Mahasiswa_model extends CI_Model
 	public function list_all()
 	{
 		return $this->db
-			->select('mahasiswa.id, kode_pt, nama_mahasiswa, tahun_masuk, tahun_lulus, mahasiswa.email, no_hp, username, password_plain, ps.waktu_pelaksanaan, count(n.id) as jumlah_notif')
+			->select('row_number() over(order by kode_pt, kode_prodi, tahun_masuk) as no, mahasiswa.id, LPAD(kode_pt, 6, \'0\') as kode_pt, kode_prodi, nama_mahasiswa, tahun_masuk, tahun_lulus, mahasiswa.email, no_hp, username, password_plain, ps.waktu_pelaksanaan', FALSE)
+			->select('(select count(*) from notifikasi_email n where n.mahasiswa_id = mahasiswa.id) as jumlah_notif', FALSE)
 			->from('mahasiswa')
 			->join('user', 'user.mahasiswa_id = mahasiswa.id', 'LEFT')
 			->join('plot_survei ps', 'ps.mahasiswa_id = mahasiswa.id', 'LEFT')
-			->join('notifikasi_email n', 'n.mahasiswa_id = mahasiswa.id', 'LEFT')
-			->group_by('mahasiswa.id, kode_pt, nama_mahasiswa, tahun_masuk, tahun_lulus, mahasiswa.email, no_hp, username, password_plain, ps.waktu_pelaksanaan')
+			->get()->result();
+	}
+	
+	public function list_all_by_plot_admin($username)
+	{
+		return $this->db
+			->select('row_number() over(order by kode_pt, kode_prodi, tahun_masuk) as no, mahasiswa.id, LPAD(kode_pt, 6, \'0\') as kode_pt, kode_prodi, nama_mahasiswa, tahun_masuk, tahun_lulus, mahasiswa.email, no_hp, um.username, um.password_plain, ps.waktu_pelaksanaan', FALSE)
+			->select('(select count(*) from notifikasi_email n where n.mahasiswa_id = mahasiswa.id) as jumlah_notif', FALSE)
+			->from('mahasiswa')
+			->join('user um', 'um.mahasiswa_id = mahasiswa.id', 'LEFT')
+			->join('plot_survei ps', 'ps.mahasiswa_id = mahasiswa.id', 'LEFT')
+			->join('plot_admin pa', 'pa.mahasiswa_id = mahasiswa.id')
+			->join('user ua', 'ua.id = pa.user_id')
+			->where('ua.username', $username)
 			->get()->result();
 	}
 	

@@ -25,48 +25,20 @@
  */
 
 /**
- * Description of Data_Mahasiswa
- *
  * @author Fathoni <m.fathoni@mail.com>
+ * @property CI_DB_query_builder $db
+ * @property int $id
+ * @property int $mahasiswa_id
+ * @property int $survei_id
+ * @property string $waktu_pelaksanaan
  */
-class Data_Mahasiswa extends MY_Controller
+class PlotSurvei_model extends CI_Model
 {
-	public function __construct()
+	public function get_single($mahasiswa_id, $survei_id)
 	{
-		parent::__construct();
-		
-		$this->check_admin_credentials();
-	}
-	
-	public function index()
-	{
-		$this->smarty->display();
-	}
-	
-	public function data()
-	{
-		$user = $this->session->userdata('user');
-		
-		// Jika Admin utama, show all
-		if ($user->username == 'admin')
-		{
-			echo json_encode(['data' => $this->mahasiswa_model->list_all()]);
-		}
-		else
-		{
-			echo json_encode(['data' => $this->mahasiswa_model->list_all_by_plot_admin($user->username)]);
-		}
-	}
-	
-	public function update_notifikasi()
-	{
-		if ($this->input->method() == 'post')
-		{
-			$this->db->insert('notifikasi_email', [
-				'mahasiswa_id'	=> $this->input->post('id'),
-				'notifikasi'	=> $this->input->post('jenis'),
-				'waktu_kirim'	=> date('Y-m-d H:i:s')
-			]);
-		}
+		return $this->db->get_where('plot_survei', [
+			'mahasiswa_id' => $mahasiswa_id,
+			'survei_id' => $survei_id
+		], 1)->row();
 	}
 }

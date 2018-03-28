@@ -31,6 +31,7 @@
 					<tr>
 						<th>#</th>
 						<th>Kode PT</th>
+						<th>Prodi</th>
 						<th>Mahasiswa</th>
 						<th>Masuk</th>
 						<th>Lulus</th>
@@ -91,8 +92,9 @@
 				ajax: '{site_url('admin/data-mahasiswa/data')}',
 				columns:
 				[
-					{ data: null, defaultContent: '' },
+					{ data: 'no' },
 					{ data: 'kode_pt' },
+					{ data: 'kode_prodi' },
 					{ data: 'nama_mahasiswa' },
 					{ data: 'tahun_masuk' },
 					{ data: 'tahun_lulus' },

@@ -38,6 +38,7 @@
  * @property Pertanyaan_model $pertanyaan_model
  * @property Jawaban_model $jawaban_model
  * @property InputJawaban_model $inputjawaban_model
+ * @property PlotSurvei_model $plotsurvei_model
  */
 class MY_Controller extends CI_Controller
 {
@@ -52,6 +53,7 @@ class MY_Controller extends CI_Controller
 		$this->load->model('pertanyaan_model');
 		$this->load->model('jawaban_model');
 		$this->load->model('inputjawaban_model');
+		$this->load->model('plotsurvei_model');
 	}
 	
 	public function check_credentials()

@@ -25,48 +25,24 @@
  */
 
 /**
- * Description of Data_Mahasiswa
- *
  * @author Fathoni <m.fathoni@mail.com>
  */
-class Data_Mahasiswa extends MY_Controller
+class Migration_Add_plot_admin extends CI_Migration
 {
-	public function __construct()
+	public function up()
 	{
-		parent::__construct();
-		
-		$this->check_admin_credentials();
+		echo "  > create table plot_admin ... ";
+		$this->dbforge->add_field('id SERIAL PRIMARY KEY');
+		$this->dbforge->add_field('mahasiswa_id INTEGER NOT NULL REFERENCES mahasiswa (id)');
+		$this->dbforge->add_field('user_id INTEGER NOT NULL REFERENCES "user" (id)');
+		$this->dbforge->create_table('plot_admin', TRUE);
+		echo "OK\n";
 	}
 	
-	public function index()
+	public function down()
 	{
-		$this->smarty->display();
-	}
-	
-	public function data()
-	{
-		$user = $this->session->userdata('user');
-		
-		// Jika Admin utama, show all
-		if ($user->username == 'admin')
-		{
-			echo json_encode(['data' => $this->mahasiswa_model->list_all()]);
-		}
-		else
-		{
-			echo json_encode(['data' => $this->mahasiswa_model->list_all_by_plot_admin($user->username)]);
-		}
-	}
-	
-	public function update_notifikasi()
-	{
-		if ($this->input->method() == 'post')
-		{
-			$this->db->insert('notifikasi_email', [
-				'mahasiswa_id'	=> $this->input->post('id'),
-				'notifikasi'	=> $this->input->post('jenis'),
-				'waktu_kirim'	=> date('Y-m-d H:i:s')
-			]);
-		}
+		echo "  > drop table plot_admin ... ";
+		$this->dbforge->drop_table('plot_admin', TRUE);
+		echo "OK\n";
 	}
 }
