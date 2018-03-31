@@ -35,7 +35,7 @@ class Mahasiswa_model extends CI_Model
 	public function list_all()
 	{
 		return $this->db
-			->select('row_number() over(order by kode_pt, kode_prodi, tahun_masuk) as no, mahasiswa.id, LPAD(kode_pt, 6, \'0\') as kode_pt, kode_prodi, nama_mahasiswa, tahun_masuk, tahun_lulus, mahasiswa.email, no_hp, username, password_plain, ps.waktu_pelaksanaan', FALSE)
+			->select('row_number() over(order by kode_pt, kode_prodi, tahun_masuk) as no, mahasiswa.id, LPAD(kode_pt, 6, \'0\') as kode_pt, kode_prodi, nama_mahasiswa, tahun_masuk, tahun_lulus, mahasiswa.email, no_hp, ps.waktu_pelaksanaan', FALSE)
 			->select('(select count(*) from notifikasi_email n where n.mahasiswa_id = mahasiswa.id) as jumlah_notif', FALSE)
 			->from('mahasiswa')
 			->join('user', 'user.mahasiswa_id = mahasiswa.id', 'LEFT')
@@ -46,7 +46,7 @@ class Mahasiswa_model extends CI_Model
 	public function list_all_by_plot_admin($username)
 	{
 		return $this->db
-			->select('row_number() over(order by kode_pt, kode_prodi, tahun_masuk) as no, mahasiswa.id, LPAD(kode_pt, 6, \'0\') as kode_pt, kode_prodi, nama_mahasiswa, tahun_masuk, tahun_lulus, mahasiswa.email, no_hp, um.username, um.password_plain, ps.waktu_pelaksanaan', FALSE)
+			->select('row_number() over(order by kode_pt, kode_prodi, tahun_masuk) as no, mahasiswa.id, LPAD(kode_pt, 6, \'0\') as kode_pt, kode_prodi, nama_mahasiswa, tahun_masuk, tahun_lulus, mahasiswa.email, no_hp, ps.waktu_pelaksanaan', FALSE)
 			->select('(select count(*) from notifikasi_email n where n.mahasiswa_id = mahasiswa.id) as jumlah_notif', FALSE)
 			->from('mahasiswa')
 			->join('user um', 'um.mahasiswa_id = mahasiswa.id', 'LEFT')
@@ -73,5 +73,10 @@ class Mahasiswa_model extends CI_Model
 			->from('plot_survei ps')
 			->join('mahasiswa m', 'm.id = ps.mahasiswa_id')
 			->get()->result();
+	}
+	
+	public function get_single($id)
+	{
+		return $this->db->get_where('mahasiswa', ['id' => $id], 1)->row();
 	}
 }

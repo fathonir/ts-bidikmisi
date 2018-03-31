@@ -69,4 +69,19 @@ class Data_Mahasiswa extends MY_Controller
 			]);
 		}
 	}
+	
+	public function get_mahasiswa($id)
+	{
+		echo json_encode($this->mahasiswa_model->get_single($id));
+	}
+	
+	public function update_mahasiswa()
+	{
+		$update_result = $this->db->update('mahasiswa', [
+			'email' => $this->input->post('email'),
+			'no_hp' => $this->input->post('no_hp')
+		], ['id' => $this->input->post('id')]);
+		
+		echo $update_result ? '1' : '0';
+	}
 }
