@@ -33,6 +33,7 @@
  * @property CI_Input $input
  * @property CI_DB_query_builder $db
  * @property CI_Session $session
+ * @property CI_Form_validation $form_validation
  * @property Mahasiswa_model $mahasiswa_model 
  * @property Survei_model $survei_model
  * @property Pertanyaan_model $pertanyaan_model
