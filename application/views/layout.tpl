@@ -6,7 +6,6 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>Tracer Study Bidikmisi</title>
 		{if ENVIRONMENT == 'development'}
-			<link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
 			<link href="{base_url('assets/css/bootstrap.min.css')}" rel="stylesheet"/>
 		{/if}
 		{if ENVIRONMENT == 'production'}
@@ -37,9 +36,12 @@
 						{if $ci->session->user->tipe_user == 99}
 							<ul class="nav navbar-nav">
 								<li>
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Konfigurasi <span class="caret"></span></a>
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pengaturan <span class="caret"></span></a>
 									<ul class="dropdown-menu">
 										<li><a href="{site_url('admin/master-survei')}">Survei</a></li>
+										<li><a href="{site_url('admin/setting/email')}">Email</a></li>
+										<li><a href="{site_url('admin/setting/email-login')}">Email Login</a></li>
+										<li><a href="#">SMS</a></li>
 									</ul>
 								</li>
 								<li>
