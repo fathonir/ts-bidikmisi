@@ -117,7 +117,7 @@ class Setting extends MY_Controller
 		if ($this->input->method() == 'post')
 		{
 			$user->email_username = $this->input->post('email_username');
-			$user->email_password = $this->input->post('email_username');
+			$user->email_password = $this->input->post('email_password');
 			
 			$this->db->update('user', [
 				'email_username' => $user->email_username,
