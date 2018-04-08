@@ -30,6 +30,7 @@
  * @author Fathoni <m.fathoni@mail.com>
  * @property Smarty_wrapper $smarty 
  * @property CI_Input $input
+ * @property CI_DB_query_builder $db
  */
 class Auth extends CI_Controller
 {
@@ -81,6 +82,22 @@ class Auth extends CI_Controller
 						if ($user->tipe_user == TIPE_USER_NORMAL)
 						{
 							$mahasiswa = $this->db->get_where('mahasiswa', ['id' => $user->mahasiswa_id])->row();
+							
+							// Ambil data pt
+							$mahasiswa->perguruan_tinggi = $this->db
+								->select('i.*')->from('pdpt.perguruan_tinggi pt')
+								->join('pdpt.institusi i', 'i.id_institusi = pt.id_institusi')
+								->where(['pt.kode_perguruan_tinggi' => $mahasiswa->kode_pt])
+								->get()->row();
+							
+							// Ambil data prodi
+							$mahasiswa->program_studi = $this->db
+								->select('ps.*')->from('pdpt.program_studi ps')
+								->where([
+									'ps.kode_perguruan_tinggi' => $mahasiswa->kode_pt,
+									'ps.kode_program_studi' => $mahasiswa->kode_prodi
+								])
+								->get()->row();
 							
 							$this->session->set_userdata('mahasiswa', $mahasiswa);
 							

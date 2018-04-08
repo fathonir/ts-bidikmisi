@@ -23,7 +23,11 @@
 			</div>
 			<label class="col-sm-2 control-label">Perguruan Tinggi</label>
 			<div class="col-sm-4">
-				<p class="form-control-static">{$mahasiswa->kode_pt}</p>
+				<p class="form-control-static">
+					{if $mahasiswa->perguruan_tinggi}
+						{$mahasiswa->perguruan_tinggi->nama_institusi}
+					{/if}
+				</p>
 			</div>
 		</div>
 		<div class="form-group">
@@ -33,7 +37,11 @@
 			</div>
 			<label class="col-sm-2 control-label">Program Studi</label>
 			<div class="col-sm-4">
-				<p class="form-control-static">{$mahasiswa->kode_prodi}</p>
+				<p class="form-control-static">
+					{if $mahasiswa->program_studi}
+						{$mahasiswa->program_studi->nama_program_studi}
+					{/if}
+				</p>
 			</div>
 		</div>
 		<div class="form-group">

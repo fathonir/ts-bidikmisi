@@ -21,12 +21,20 @@
 						<td>{$mahasiswa->kode_lulusan}</td>
 					</tr>
 					<tr>
-						<td>Kode PT</td>
-						<td>{$mahasiswa->kode_pt}</td>
+						<td>Perguruan Tinggi</td>
+						<td>
+							{if $mahasiswa->perguruan_tinggi}
+								{$mahasiswa->perguruan_tinggi->nama_institusi}
+							{/if}
+						</td>
 					</tr>
 					<tr>
-						<td>Kode Prodi</td>
-						<td>{$mahasiswa->kode_prodi}</td>
+						<td>Program Studi</td>
+						<td>
+							{if $mahasiswa->program_studi}
+								{$mahasiswa->program_studi->nama_program_studi}
+							{/if}
+						</td>
 					</tr>
 					<tr>
 						<td>Tahun Masuk</td>
