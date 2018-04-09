@@ -53,8 +53,8 @@ class MY_Controller extends CI_Controller
 		$this->load->model('survei_model');
 		$this->load->model('pertanyaan_model');
 		$this->load->model('jawaban_model');
-		$this->load->model('inputjawaban_model');
-		$this->load->model('plotsurvei_model');
+		$this->load->model('InputJawaban_model', 'inputjawaban_model');
+		$this->load->model('PlotSurvei_model', 'plotsurvei_model');
 	}
 	
 	public function check_credentials()
