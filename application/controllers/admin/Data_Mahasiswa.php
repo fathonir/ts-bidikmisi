@@ -31,22 +31,23 @@
  */
 class Data_Mahasiswa extends MY_Controller
 {
+
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->check_admin_credentials();
 	}
-	
+
 	public function index()
 	{
 		$this->smarty->display();
 	}
-	
+
 	public function data()
 	{
 		$user = $this->session->userdata('user');
-		
+
 		// Jika Admin utama, show all
 		if ($user->username == 'admin')
 		{
@@ -57,31 +58,87 @@ class Data_Mahasiswa extends MY_Controller
 			echo json_encode(['data' => $this->mahasiswa_model->list_all_by_plot_admin($user->username)]);
 		}
 	}
-	
+
 	public function update_notifikasi()
 	{
 		if ($this->input->method() == 'post')
 		{
+			$mahasiswa_id	 = $this->input->post('id');
+			$notifikasi		 = $this->input->post('jenis');
+
+			if ($notifikasi == 'email')
+			{
+				$this->load->library('email');
+				
+				// Ambil data user dari db
+				$user = $this->session->userdata('user');
+
+				// Ambil data mahasiswa
+				$mahasiswa = $this->mahasiswa_model->get_single_with_login($mahasiswa_id);
+
+				// Setting SMTP
+				$email_config['protocol']		 = 'smtp';
+				$email_config['smtp_host']		 = $this->db->get_where('config', ['config_name' => 'email_smtp_host'], 1)->row()->config_value;
+				$email_config['smtp_port']		 = $this->db->get_where('config', ['config_name' => 'email_smtp_port'], 1)->row()->config_value;
+				$email_config['smtp_user']		 = $user->email_username;
+				$email_config['smtp_pass']		 = $user->email_password;
+				$email_config['smtp_timeout']	 = $this->db->get_where('config', ['config_name' => 'email_smtp_timeout'], 1)->row()->config_value;
+				$email_config['smtp_crypto']	 = $this->db->get_where('config', ['config_name' => 'email_smtp_crypto'], 1)->row()->config_value;
+				$email_config['smtp_keepalive']	 = TRUE;
+				$email_config['wrapchars']		 = 120;
+				$email_config['dsn']			 = TRUE;
+
+				$this->email->initialize($email_config);
+				
+				$email_subject	= $this->db->get_where('config', ['config_name' => 'email_subject'], 1)->row()->config_value;
+				$email_body_raw	= $this->db->get_where('config', ['config_name' => 'email_body'], 1)->row()->config_value;
+				$email_from		= $user->email;
+				
+				// Variable collection
+				$email_vars = [
+					'{NIM}'				=> $mahasiswa->nim,
+					'{NAMA}'			=> $mahasiswa->nama_mahasiswa,
+					'{PROGRAM STUDI}'	=> $mahasiswa->kode_prodi,
+					'{PERGURUAN TINGGI}'=> $mahasiswa->nama_institusi,
+					'{USERNAME}'		=> $mahasiswa->username,
+					'{PASSWORD}'		=> $mahasiswa->password_plain
+				];
+				
+				// Replace variable
+				$email_body = strtr($email_body_raw, $email_vars);
+
+				$this->email->from($email_from, $email_from);
+				// $this->email->to($mahasiswa->email);
+				$this->email->to('m.fathoni@mail.com');
+
+				$this->email->subject($email_subject);
+				$this->email->message($email_body);
+
+				$send_result = $this->email->send();
+
+				echo ($send_result) ? '1' : '0';
+			}
+
 			$this->db->insert('notifikasi_email', [
-				'mahasiswa_id'	=> $this->input->post('id'),
-				'notifikasi'	=> $this->input->post('jenis'),
-				'waktu_kirim'	=> date('Y-m-d H:i:s')
+				'mahasiswa_id'	 => $this->input->post('id'),
+				'notifikasi'	 => $this->input->post('jenis'),
+				'waktu_kirim'	 => date('Y-m-d H:i:s')
 			]);
 		}
 	}
-	
+
 	public function get_mahasiswa($id)
 	{
 		echo json_encode($this->mahasiswa_model->get_single($id));
 	}
-	
+
 	public function update_mahasiswa()
 	{
 		$update_result = $this->db->update('mahasiswa', [
-			'email' => $this->input->post('email'),
-			'no_hp' => $this->input->post('no_hp')
+			'email'	 => $this->input->post('email'),
+			'no_hp'	 => $this->input->post('no_hp')
 		], ['id' => $this->input->post('id')]);
-		
+
 		echo $update_result ? '1' : '0';
 	}
 }

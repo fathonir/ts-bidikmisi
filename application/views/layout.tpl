@@ -49,6 +49,8 @@
 									<ul class="dropdown-menu">
 										<li><a href="{site_url('admin/data-mahasiswa')}">Data Mahasiswa</a></li>
 										<li><a href="{site_url('admin/hasil-tracer')}">Data Hasil Tracer</a></li>
+										<li class="divider" role="separator"></li>
+										<li><a href="{site_url('admin/email-fail')}">Data Email Gagal</a></li>
 									</ul>
 								</li>
 								<li>
