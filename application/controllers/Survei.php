@@ -349,13 +349,13 @@ class Survei extends MY_Controller
 
 		$this->db->trans_begin();
 
-		//$this->db->insert_batch('hasil_survei', $hasil_survei_set);
+		$this->db->insert_batch('hasil_survei', $hasil_survei_set);
 
-		//$this->db->insert('plot_survei', [
-		//	'mahasiswa_id'		=> $mahasiswa->id,
-		//	'survei_id'			=> $survei->id,
-		//	'waktu_pelaksanaan'	=> date('Y-m-d H:i:s')
-		//]);
+		$this->db->insert('plot_survei', [
+			'mahasiswa_id'		=> $mahasiswa->id,
+			'survei_id'			=> $survei->id,
+			'waktu_pelaksanaan'	=> date('Y-m-d H:i:s')
+		]);
 
 		// Cek tabel TS_ eksis / tidak
 		$table_ts_exists = $this->db->query("SELECT EXISTS (
@@ -393,12 +393,12 @@ class Survei extends MY_Controller
 			}
 
 			// Insert data ke db
-			//$this->db->insert('TS_'.$survei->kode_tabel, $data_ts);
+			$this->db->insert('TS_'.$survei->kode_tabel, $data_ts);
 		}
 
 		if ($this->db->trans_status() !== FALSE)
 		{
-			//$this->db->trans_commit();
+			$this->db->trans_commit();
 
 			$this->session->set_flashdata('result', array(
 				'is_success' => TRUE,
@@ -409,7 +409,7 @@ class Survei extends MY_Controller
 		}
 		else
 		{
-			//$this->db->trans_rollback();
+			$this->db->trans_rollback();
 
 			$this->session->set_flashdata('result', array(
 				'is_success' => FALSE,
@@ -420,9 +420,9 @@ class Survei extends MY_Controller
 			));
 		}
 
-		//redirect(site_url('survei/isi-result'));
+		redirect(site_url('survei/isi-result'));
 
-		//exit();
+		exit();
 	}
 	
 	public function isi_result()
