@@ -52,6 +52,7 @@ class Mahasiswa_model extends CI_Model
 		return $this->db
 			->select('row_number() over(order by kode_pt, kode_prodi, tahun_masuk) as no, mahasiswa.id, kode_pt, kode_prodi, nama_mahasiswa, tahun_masuk, tahun_lulus, mahasiswa.email, no_hp, ps.waktu_pelaksanaan', FALSE)
 			->select('(select count(*) from notifikasi_email n where n.mahasiswa_id = mahasiswa.id) as jumlah_notif', FALSE)
+			->select('(select count(*) from email_fail e where e.email = mahasiswa.email) as email_fail', FALSE)
 			->from('mahasiswa')
 			->join('user um', 'um.mahasiswa_id = mahasiswa.id', 'LEFT')
 			->join('plot_survei ps', 'ps.mahasiswa_id = mahasiswa.id', 'LEFT')
