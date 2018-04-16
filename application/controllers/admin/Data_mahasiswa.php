@@ -108,8 +108,7 @@ class Data_Mahasiswa extends MY_Controller
 				$email_body = strtr($email_body_raw, $email_vars);
 
 				$this->email->from($email_from, $email_from);
-				// $this->email->to($mahasiswa->email);
-				$this->email->to('m.fathoni@mail.com');
+				$this->email->to($mahasiswa->email);
 
 				$this->email->subject($email_subject);
 				$this->email->message($email_body);
