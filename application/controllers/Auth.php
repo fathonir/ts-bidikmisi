@@ -140,6 +140,35 @@ class Auth extends CI_Controller
 		redirect(site_url());
 	}
 	
+	public function akunku()
+	{
+		if ($this->input->method() == 'post')
+		{
+			$kode_pt	= $this->input->post('kode_perguruan_tinggi');
+			$nim		= $this->input->post('nim');
+			$nama		= $this->input->post('nama');
+			
+			$account = $this->db->query(
+				"select u.username, u.password_plain as password
+				from mahasiswa m
+				join \"user\" u on u.mahasiswa_id = m.id
+				where m.kode_pt = ? and m.nim = ? and lower(nama_mahasiswa) = lower(?)", [$kode_pt, $nim, $nama])
+				->row();
+			
+			$this->smarty->assign('account', $account);
+		}
+		
+		$pt_set = $this->db->query(
+			"select pt.kode_perguruan_tinggi, i.nama_institusi from pdpt.perguruan_tinggi pt
+			join pdpt.institusi i on i.id_institusi = pt.id_institusi
+			where pt.kode_perguruan_tinggi in (select kode_pt from mahasiswa)
+			order by 2")->result();
+		
+		$this->smarty->assign('pt_set', $pt_set);
+		
+		$this->smarty->display();
+	}
+	
 	public function get_captcha()
 	{		
 		$this->load->helper('captcha');

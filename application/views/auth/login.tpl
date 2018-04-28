@@ -33,6 +33,7 @@
 		<div class="col-lg-5">
 			<h3 style="margin-top: 10px">Hal yang perlu diperhatikan</h3>
 			<ul>
+				<li>Jika tidak mengetahui akun login, silahkan buka link berikut ini : <a href="{site_url('/akunku')}">{site_url('/akunku')}</a></li>
 				<li>Username & password yang resmi hanya yang berasal dari Kemenristekdikti.</li>
 				<li>Pastikan mengisi isian captcha agar bisa login</li>
 				<li>Ketika mengganti password selalu gunakan password yang sulit ditebak</li>
