@@ -40,12 +40,12 @@ class Auth extends CI_Controller
 	{
 		if ($this->input->method() == 'post')
 		{
-			$username	= $this->input->post('username');
+			$username	= strtolower($this->input->post('username'));
 			$password	= $this->input->post('password');
 			$captcha	= $this->input->post('captcha');
 			
 			// Ambil data user by username
-			$user = $this->db->get_where('user', ['username' => $username], 1)->row();
+			$user = $this->db->get_where('user', ['lower(username)' => $username], 1)->row();
 			
 			$expiration = time() - $this::CAPTCHA_TIMEOUT;
 			
