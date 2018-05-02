@@ -54,6 +54,13 @@
 									</ul>
 								</li>
 								<li>
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Report <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a href="{site_url('admin/reporting/per-program-studi')}">Per Program Studi</a></li>
+										<li><a href="{site_url('admin/reporting/per-perguruan-tinggi')}">Per Perguruan Tinggi</a></li>
+									</ul>
+								</li>
+								<li>
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Utility <span class="caret"></span></a>
 									<ul class="dropdown-menu">
 										<li><a href="{site_url('admin/utility/generate-user-login')}">Generate User Login</a></li>
