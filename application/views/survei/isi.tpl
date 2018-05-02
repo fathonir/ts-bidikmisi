@@ -193,7 +193,13 @@
 {block name='footer-script'}
 	<script src="{base_url()}assets/jquery-validation/jquery.validate.min.js"></script>
 	<script type="text/javascript">
+		
+		function is_bekerja() {
+			return $('input[name="f[12][24][F8]"]:checked').val() === '1';
+		}
+	
 		$(document).ready(function() {
+			
 			/* Validation */
 			$('#survei').validate({
 				rules: {
@@ -323,8 +329,11 @@
 					'f[16][28][F1302]': { digits: true },
 					'f[16][28][F1303]': { digits: true },
 					
-					'f[17][29][F14]': { required: true },
-					'f[18][30][F15]': { required: true },
+					// Pertanyaan F14
+					'f[17][29][F14]': { required: function() { return is_bekerja(); } },
+					
+					// Pertanyaan F15
+					'f[18][30][F15]': { required: function() { return is_bekerja(); } },
 					
 					'f[19][31][F1614]': {
 						required: function() {
@@ -332,34 +341,34 @@
 						}
 					},
 					
-					// Pertanyaan Radio 5 LR
-					'f[20][32][F171]': { required: true }, 'f[20][32][F172b]': { required: true }, 
-					'f[20][32][F173]': { required: true }, 'f[20][32][F174b]': { required: true }, 
-					'f[20][32][F175]': { required: true }, 'f[20][32][F176b]': { required: true }, 
-					'f[20][32][F175a]': { required: true }, 'f[20][32][F176ba]': { required: true }, 
-					'f[20][32][F177]': { required: true }, 'f[20][32][F178b]': { required: true }, 
-					'f[20][32][F179]': { required: true }, 'f[20][32][F1710b]': { required: true }, 
-					'f[20][32][F1711]': { required: true }, 'f[20][32][F1712b]': { required: true }, 
-					'f[20][32][F1713]': { required: true }, 'f[20][32][F1714b]': { required: true }, 
-					'f[20][32][F1715]': { required: true }, 'f[20][32][F1716b]': { required: true }, 
-					'f[20][32][F1717]': { required: true }, 'f[20][32][F1718b]': { required: true }, 
-					'f[20][32][F1719]': { required: true }, 'f[20][32][F1720b]': { required: true }, 
-					'f[20][32][F1721]': { required: true }, 'f[20][32][F1722b]': { required: true }, 
-					'f[20][32][F1723]': { required: true }, 'f[20][32][F1724b]': { required: true }, 
-					'f[20][32][F1725]': { required: true }, 'f[20][32][F1726b]': { required: true }, 
-					'f[20][32][F1727]': { required: true }, 'f[20][32][F1728b]': { required: true }, 
-					'f[20][32][F1729]': { required: true }, 'f[20][32][F1730b]': { required: true }, 
-					'f[20][32][F1731]': { required: true }, 'f[20][32][F1732b]': { required: true }, 
-					'f[20][32][F1733]': { required: true }, 'f[20][32][F1734b]': { required: true }, 
-					'f[20][32][F1735]': { required: true }, 'f[20][32][F1736b]': { required: true }, 
-					'f[20][32][F1737]': { required: true }, 'f[20][32][F1738b]': { required: true }, 
-					'f[20][32][F1737a]': { required: true }, 'f[20][32][F1738ba]': { required: true }, 
-					'f[20][32][F1739]': { required: true }, 'f[20][32][F1740b]': { required: true }, 
-					'f[20][32][F1741]': { required: true }, 'f[20][32][F1742b]': { required: true }, 
-					'f[20][32][F1743]': { required: true }, 'f[20][32][F1744b]': { required: true }, 
-					'f[20][32][F1745]': { required: true }, 'f[20][32][F1746b]': { required: true }, 
-					'f[20][32][F1747]': { required: true }, 'f[20][32][F1748b]': { required: true }, 
-					'f[20][32][F1749]': { required: true }, 'f[20][32][F1750b]': { required: true }
+					// Pertanyaan F17 Radio 5 LR
+					'f[20][32][F171]': { required: function() { return is_bekerja(); } }, 'f[20][32][F172b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F173]': { required: function() { return is_bekerja(); } }, 'f[20][32][F174b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F175]': { required: function() { return is_bekerja(); } }, 'f[20][32][F176b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F175a]': { required: function() { return is_bekerja(); } }, 'f[20][32][F176ba]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F177]': { required: function() { return is_bekerja(); } }, 'f[20][32][F178b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F179]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1710b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1711]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1712b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1713]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1714b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1715]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1716b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1717]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1718b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1719]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1720b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1721]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1722b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1723]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1724b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1725]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1726b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1727]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1728b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1729]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1730b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1731]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1732b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1733]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1734b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1735]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1736b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1737]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1738b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1737a]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1738ba]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1739]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1740b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1741]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1742b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1743]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1744b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1745]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1746b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1747]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1748b]': { required: function() { return is_bekerja(); } }, 
+					'f[20][32][F1749]': { required: function() { return is_bekerja(); } }, 'f[20][32][F1750b]': { required: function() { return is_bekerja(); } }
 				},
 				errorElement: 'span',
 				errorPlacement: function(error, element) {
