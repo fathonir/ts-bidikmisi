@@ -50,6 +50,10 @@
 				</tbody>
 			</table>
 			
+			<div class="text-center">
+				<a href="{site_url('admin/reporting/data-csv')}" class="btn btn-default" target="_blank">Export CSV</a>
+			</div>
+			
 		</div>
 	</div>
 	
