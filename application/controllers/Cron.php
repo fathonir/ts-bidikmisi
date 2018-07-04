@@ -54,8 +54,8 @@ class Cron extends CI_Controller
 		
 		$this->email->initialize($email_config);
 		
-		// Ambil 50 email yang belum dikirim
-		$data_set = $this->db->get_where('email_outbox', ['sent_time IS NULL' => NULL], 50)->result();
+		// Ambil 30 email yang belum dikirim
+		$data_set = $this->db->get_where('email_outbox', ['sent_time IS NULL' => NULL], 30)->result();
 		
 		foreach ($data_set as $data)
 		{			
