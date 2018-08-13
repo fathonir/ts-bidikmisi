@@ -43,17 +43,19 @@ class Utility extends MY_Controller
 			->from('user')
 			->where('tipe_user', TIPE_USER_NORMAL)
 			->get()->row()->seri_terakhir;
-		
+			
 		foreach ($this->mahasiswa_model->list_all_tanpa_login() as $mahasiswa)
 		{
 			$seri_terakhir++;
 			
-			$new_user = new stdClass();
-			$new_user->username = 'BM' . substr($mahasiswa->tahun_masuk, -2) . str_pad($seri_terakhir, 6, '0', STR_PAD_LEFT);
-			$new_user->password_plain = random_string('numeric');
-			$new_user->password_hash = sha1($new_user->password_plain);
-			$new_user->tipe_user = TIPE_USER_NORMAL;
-			$new_user->mahasiswa_id = $mahasiswa->id;
+			$tahun						= ($mahasiswa->tahun_masuk != '') ? substr($mahasiswa->tahun_masuk, -2) : substr($mahasiswa->tahun_lulus, -2);
+			
+			$new_user					= new stdClass();
+			$new_user->username			= 'BM' . $tahun . str_pad($seri_terakhir, 6, '0', STR_PAD_LEFT);
+			$new_user->password_plain	= random_string('numeric');
+			$new_user->password_hash	= sha1($new_user->password_plain);
+			$new_user->tipe_user		= TIPE_USER_NORMAL;
+			$new_user->mahasiswa_id		= $mahasiswa->id;
 			
 			$new_user_set[] = $new_user;
 		}
