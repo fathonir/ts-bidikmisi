@@ -65,9 +65,9 @@ class Mahasiswa_model extends CI_Model
 	public function list_all_tanpa_login()
 	{
 		return $this->db
-			->select('id, tahun_masuk')
+			->select('id, tahun_masuk, tahun_lulus')
 			->from('mahasiswa')
-			->where_not_in('select mahasiswa_id from user', NULL, FALSE)
+			->where('id not in (select mahasiswa_id from "user" where mahasiswa_id is not null)', NULL, FALSE)
 			->get()->result();
 	}
 	
