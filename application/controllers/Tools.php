@@ -37,7 +37,7 @@ class Tools extends CI_Controller
 	{
 		$this->load->helper('email');
 
-		echo "  > Start generate all outbox email ";
+		echo "  > Start generate all outbox email \n";
 
 		echo "  > Ambil data mahasiswa yang akan dikirimi email ... ";
 
@@ -48,8 +48,9 @@ class Tools extends CI_Controller
 				->join('pdpt.perguruan_tinggi pt', 'pt.kode_perguruan_tinggi = m.kode_pt', 'LEFT')
 				->join('pdpt.institusi i', 'i.id_institusi = pt.id_institusi', 'LEFT')
 				->join('pdpt.program_studi ps', 'ps.kode_perguruan_tinggi = m.kode_pt AND ps.kode_program_studi = m.kode_prodi', 'LEFT')
+				->where('m.id not in (select mahasiswa_id from plot_survei where survei_id = 1)', NULL, FALSE)	// Survei_id = 1 untuk kuesioner tahun 2018
 				->get()->result();
-
+		
 		echo "OK\n";
 
 		echo "  > Ambil template email ... ";
