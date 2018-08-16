@@ -48,7 +48,10 @@ class Utility extends MY_Controller
 		{
 			$seri_terakhir++;
 			
-			$tahun						= ($mahasiswa->tahun_masuk != '') ? substr($mahasiswa->tahun_masuk, -2) : substr($mahasiswa->tahun_lulus, -2);
+			// Baca tahun masuk bila ada dan jika tidak ada baca tahun lulus, jika tidak diketahui set 00
+			$tahun						= 
+				($mahasiswa->tahun_masuk != '') ? substr($mahasiswa->tahun_masuk, -2) : 
+				($mahasiswa->tahun_lulus != '') ? substr($mahasiswa->tahun_lulus, -2) : '00';
 			
 			$new_user					= new stdClass();
 			$new_user->username			= 'BM' . $tahun . str_pad($seri_terakhir, 6, '0', STR_PAD_LEFT);
