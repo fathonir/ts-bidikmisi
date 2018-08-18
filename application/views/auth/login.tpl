@@ -42,31 +42,31 @@
 			<table class="table table-condensed">
 				<tbody>
 					<tr>
-						<td>Adi (Bidikmisi UNS)</td>
+						<td>Adi</td>
 						<td>0858 7897 7702</td>
 					</tr>
 					<tr>
-						<td>Jehan (Bidikmisi UNIMED)</td>
+						<td>Jehan</td>
 						<td>0853 5979 1896</td>
 					</tr>
 					<tr>
-						<td>Ryan (Bidikmisi UNPAB)</td>
+						<td>Ryan</td>
 						<td>0823 6396 3028</td>
 					</tr>
 					<tr>
-						<td>Cecep (Bidikmisi UNPAD)</td>
+						<td>Cecep</td>
 						<td>0856 2423 2692</td>
 					</tr>
 					<tr>
-						<td>Yeni (Bidikmisi Polimedia)</td>
+						<td>Yeni</td>
 						<td>0838 7662 6802</td>
 					</tr>
 					<tr>
-						<td>Andri (Bidikmisi UNRI)</td>
+						<td>Andri</td>
 						<td>0823 8572 1293</td>
 					</tr>
 					<tr>
-						<td>Ghio (Bidikmisi UNP)</td>
+						<td>Ghio</td>
 						<td>0852 7258 2224</td>
 					</tr>
 				</tbody>
