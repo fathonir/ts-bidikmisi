@@ -50,7 +50,7 @@
 						<td>0853 5979 1896</td>
 					</tr>
 					<tr>
-						<td>Mei Ryan (Bidikmisi UNPAB)</td>
+						<td>Ryan (Bidikmisi UNPAB)</td>
 						<td>0823 6396 3028</td>
 					</tr>
 					<tr>
