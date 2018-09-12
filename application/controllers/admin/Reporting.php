@@ -42,6 +42,7 @@ class Reporting extends MY_Controller
 					from mahasiswa m
 					left join plot_survei plot on plot.mahasiswa_id = m.\"id\"
 					join pdpt.program_studi ps on ps.kode_perguruan_tinggi = m.kode_pt and ps.kode_program_studi = m.kode_prodi
+					where m.tahun_lulus <= 2016
 				) tabel
 				group by kode_program_studi, nama_program_studi
 			) tabel
