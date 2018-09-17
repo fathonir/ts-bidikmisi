@@ -32,34 +32,116 @@
  */
 class Mahasiswa_model extends CI_Model
 {
-	public function list_all()
+	public function list_all_for_dt($dt_params)
 	{
-		return $this->db
-			->select('row_number() over(order by kode_pt, kode_prodi, tahun_masuk) as no, mahasiswa.id, i.nama_institusi as kode_pt, COALESCE(nama_program_studi, kode_prodi) as kode_prodi, nama_mahasiswa, tahun_masuk, tahun_lulus, mahasiswa.email, no_hp, ps.waktu_pelaksanaan', FALSE)
-			->select('(select count(*) from notifikasi_email n where n.mahasiswa_id = mahasiswa.id) as jumlah_notif', FALSE)
-			->select('(select count(*) from email_fail e where e.email = mahasiswa.email) as email_fail', FALSE)
+		$result = new stdClass();
+		
+		// Count total
+		$result->recordsTotal = $this->db->count_all('mahasiswa');
+		
+		// Count Filtered
+		if ($dt_params['search']['value'] != '')
+		{
+			$result->recordsFiltered = $this->db
+				->like('lower(nama_mahasiswa)', strtolower($dt_params['search']['value']), null, false)
+				->count_all_results('mahasiswa');
+		}
+		else
+		{
+			$result->recordsFiltered = $result->recordsTotal;
+		}
+		
+		$query = $this->db
+			->select('row_number() over() as no, mahasiswa.id, i.nama_institusi as nama_pt, COALESCE(nama_program_studi, kode_prodi) as nama_prodi, nama_mahasiswa, tahun_masuk, tahun_lulus, mahasiswa.email, no_hp, ps.waktu_pelaksanaan', FALSE)
+			->select('mahasiswa.jumlah_notif', FALSE)
+			->select('mahasiswa.email_fail', FALSE)
 			->from('mahasiswa')
 			->join('user', 'user.mahasiswa_id = mahasiswa.id', 'LEFT')
 			->join('plot_survei ps', 'ps.mahasiswa_id = mahasiswa.id', 'LEFT')
 			->join('pdpt.perguruan_tinggi pt', 'pt.kode_perguruan_tinggi = mahasiswa.kode_pt', 'LEFT')
 			->join('pdpt.institusi i', 'i.id_institusi = pt.id_institusi', 'LEFT')
 			->join('pdpt.program_studi prodi', 'prodi.kode_perguruan_tinggi = mahasiswa.kode_pt AND prodi.kode_program_studi = mahasiswa.kode_prodi', 'LEFT')
-			->get()->result();
+			->limit($dt_params['length'], $dt_params['start']);
+		
+		if ($dt_params['search']['value'] != '')
+		{
+			$query = $query->like('lower(nama_mahasiswa)', strtolower($dt_params['search']['value']), null, false);	
+		}
+		
+		if (isset($dt_params['order']))
+		{
+			// dimulai kolom ke 3
+			if ($dt_params['order'][0]['column'] >= 1 && $dt_params['order'][0]['column'] <= 11)
+			{
+				$query = $query->order_by("{$dt_params['order'][0]['column']}", $dt_params['order'][0]['dir']);
+			}
+		}
+		
+		$result->data = $query->get()->result();
+		
+		return $result;
 	}
 	
-	public function list_all_by_plot_admin($username)
+	public function list_all_by_admin_dt($username, $dt_params)
 	{
-		return $this->db
-			->select('row_number() over(order by kode_pt, kode_prodi, tahun_masuk) as no, mahasiswa.id, kode_pt, kode_prodi, nama_mahasiswa, tahun_masuk, tahun_lulus, mahasiswa.email, no_hp, ps.waktu_pelaksanaan', FALSE)
-			->select('(select count(*) from notifikasi_email n where n.mahasiswa_id = mahasiswa.id) as jumlah_notif', FALSE)
-			->select('(select count(*) from email_fail e where e.email = mahasiswa.email) as email_fail', FALSE)
+		$result = new stdClass();
+				
+		// Count total
+		$result->recordsTotal = $this->db
+			->join('plot_admin pa', 'pa.mahasiswa_id = mahasiswa.id')
+			->join('user ua', 'ua.id = pa.user_id')
+			->where('ua.username', $username)
+			->count_all_results('mahasiswa');
+		
+		// Count Filtered
+		if ($dt_params['search']['value'] != '')
+		{
+			$result->recordsFiltered = $this->db
+				->join('plot_admin pa', 'pa.mahasiswa_id = mahasiswa.id')
+				->join('user ua', 'ua.id = pa.user_id')
+				->where('ua.username', $username)
+				->where("nama_mahasiswa ilike '%{$dt_params['search']['value']}%'", NULL, FALSE)
+				->count_all_results('mahasiswa');
+		}
+		else
+		{
+			$result->recordsFiltered = $result->recordsTotal;
+		}
+		
+		$query =  $this->db
+			->select('row_number() over() as no, mahasiswa.id, i.nama_institusi as nama_pt, COALESCE(nama_program_studi, kode_prodi) as nama_prodi, nama_mahasiswa, tahun_masuk, tahun_lulus, mahasiswa.email, no_hp, ps.waktu_pelaksanaan', FALSE)
+			->select('mahasiswa.jumlah_notif', FALSE)
+			->select('mahasiswa.email_fail', FALSE)
 			->from('mahasiswa')
 			->join('user um', 'um.mahasiswa_id = mahasiswa.id', 'LEFT')
+			->join('pdpt.perguruan_tinggi pt', 'pt.kode_perguruan_tinggi = mahasiswa.kode_pt', 'LEFT')
+			->join('pdpt.institusi i', 'i.id_institusi = pt.id_institusi', 'LEFT')
+			->join('pdpt.program_studi prodi', 'prodi.kode_perguruan_tinggi = mahasiswa.kode_pt AND prodi.kode_program_studi = mahasiswa.kode_prodi', 'LEFT')
 			->join('plot_survei ps', 'ps.mahasiswa_id = mahasiswa.id', 'LEFT')
 			->join('plot_admin pa', 'pa.mahasiswa_id = mahasiswa.id')
 			->join('user ua', 'ua.id = pa.user_id')
 			->where('ua.username', $username)
-			->get()->result();
+			->limit($dt_params['length'], $dt_params['start']);
+		
+		// Searching
+		if ($dt_params['search']['value'] != '')
+		{
+			$query = $query->where("nama_mahasiswa ilike '%{$dt_params['search']['value']}%'", NULL, FALSE);	
+		}
+		
+		// Ordering
+		if (isset($dt_params['order']))
+		{
+			// dimulai kolom ke 3
+			if ($dt_params['order'][0]['column'] >= 1 && $dt_params['order'][0]['column'] <= 11)
+			{
+				$query = $query->order_by("{$dt_params['order'][0]['column']}", $dt_params['order'][0]['dir']);
+			}
+		}
+		
+		$result->data = $query->get()->result();
+		
+		return $result;
 	}
 	
 	public function list_all_tanpa_login()

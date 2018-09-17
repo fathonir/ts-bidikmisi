@@ -160,13 +160,22 @@
 			$('#mahasiswaTable').dataTable({
 				stateSave: true,
 				lengthMenu: [ 10, 25, 50, 100, 250 ],
-				ajax: '{site_url('admin/data-mahasiswa/data')}',
+				processing: true,
+				serverSide: true,
+				ajax: {
+					url: '{site_url('admin/data-mahasiswa/data')}',
+					type: 'POST'
+				},
+				searchDelay: 1800,
+				language: {
+					processing: 'Loading gan...'
+				},
 				columns:
 				[
 					{ data: null, className: 'select-checkbox', defaultContent: '', orderable: false, searchable: false },
 					{ data: 'no', orderable: true, searchable: false },
-					{ data: 'kode_pt', orderable: true },
-					{ data: 'kode_prodi', orderable: true },
+					{ data: 'nama_pt', orderable: true },
+					{ data: 'nama_prodi', orderable: true },
 					{ data: 'nama_mahasiswa', orderable: true },
 					{ data: 'tahun_masuk', orderable: false, searchable: false },
 					{ data: 'tahun_lulus', orderable: false, searchable: false },

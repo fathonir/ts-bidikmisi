@@ -51,11 +51,11 @@ class Data_Mahasiswa extends MY_Controller
 		// Jika Admin utama, show all
 		if ($user->username == 'admin')
 		{
-			echo json_encode(['data' => $this->mahasiswa_model->list_all()]);
+			echo json_encode($this->mahasiswa_model->list_all_for_dt($_POST));
 		}
 		else
 		{
-			echo json_encode(['data' => $this->mahasiswa_model->list_all_by_plot_admin($user->username)]);
+			echo json_encode($this->mahasiswa_model->list_all_by_admin_dt($user->username, $_POST));
 		}
 	}
 
@@ -117,7 +117,7 @@ class Data_Mahasiswa extends MY_Controller
 
 				echo ($send_result) ? '1' : '0';
 			}
-
+	
 			$this->db->insert('notifikasi_email', [
 				'mahasiswa_id'	 => $this->input->post('id'),
 				'notifikasi'	 => $this->input->post('jenis'),
