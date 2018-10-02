@@ -165,13 +165,44 @@ class Mahasiswa_model extends CI_Model
 			->get()->result();
 	}
 	
-	public function list_hasil_tracer()
+	public function list_hasil_tracer($dt_params)
 	{
-		return $this->db
-			->select('m.kode_pt, m.nim, m.nama_mahasiswa, ps.waktu_pelaksanaan')
+		$result = new stdClass();
+		
+		// Count total
+		$result->recordsTotal = $this->db->count_all('plot_survei');
+		
+		// Count Filtered
+		if ($dt_params['search']['value'] != '')
+		{
+			$result->recordsFiltered = $this->db
+				->from('plot_survei ps')
+				->join('mahasiswa m', 'm.id = ps.mahasiswa_id')
+				->like('lower(nama_mahasiswa)', strtolower($dt_params['search']['value']), null, false)
+				->count_all_results();
+		}
+		else
+		{
+			$result->recordsFiltered = $result->recordsTotal;
+		}
+		
+		$query =  $this->db
+			->select('row_number() over(order by ps.waktu_pelaksanaan desc) as no, i.nama_institusi as nama_pt, COALESCE(nama_program_studi, kode_prodi) as nama_prodi, m.nama_mahasiswa, ps.waktu_pelaksanaan')
 			->from('plot_survei ps')
 			->join('mahasiswa m', 'm.id = ps.mahasiswa_id')
-			->get()->result();
+			->join('pdpt.perguruan_tinggi pt', 'pt.kode_perguruan_tinggi = m.kode_pt', 'LEFT')
+			->join('pdpt.institusi i', 'i.id_institusi = pt.id_institusi', 'LEFT')
+			->join('pdpt.program_studi prodi', 'prodi.kode_perguruan_tinggi = m.kode_pt AND prodi.kode_program_studi = m.kode_prodi', 'LEFT')
+			->limit($dt_params['length'], $dt_params['start']);
+		
+		if ($dt_params['search']['value'] != '')
+		{
+			$query = $query->like('lower(nama_mahasiswa)', strtolower($dt_params['search']['value']), null, false);	
+		}
+		
+		$result->data = $query->get()->result();
+		
+		return $result;
 	}
 	
 	/**

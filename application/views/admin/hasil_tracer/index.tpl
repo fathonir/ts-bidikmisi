@@ -13,8 +13,8 @@
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>Kode PT</th>
-						<th>NIM</th>
+						<th>Perguruan Tinggi</th>
+						<th>Program Studi</th>
 						<th>Nama</th>
 						<th>Waktu Tracer</th>
 					</tr>
@@ -36,12 +36,21 @@
 			
 			$('#mahasiswaTable').dataTable({
 				lengthMenu: [ 100, 250, 500, 1000 ],
-				ajax: '{site_url('admin/hasil-tracer/data')}',
+				processing: true,
+				serverSide: true,
+				ajax: {
+					url: '{site_url('admin/hasil-tracer/data')}',
+					type: 'POST'
+				},
+				searchDelay: 1800,
+				language: {
+					processing: 'Loading gan...'
+				},
 				columns:
 				[
-					{ data: null, defaultContent: '' },
-					{ data: 'kode_pt' },
-					{ data: 'nim' },
+					{ data: 'no' },
+					{ data: 'nama_pt' },
+					{ data: 'nama_prodi' },
 					{ data: 'nama_mahasiswa' },
 					{ data: 'waktu_pelaksanaan' }
 				],

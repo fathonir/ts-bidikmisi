@@ -46,6 +46,6 @@ class Hasil_Tracer extends MY_Controller
 	
 	public function data()
 	{
-		echo json_encode(['data' => $this->mahasiswa_model->list_hasil_tracer()]);
+		echo json_encode($this->mahasiswa_model->list_hasil_tracer($_POST));
 	}
 }
