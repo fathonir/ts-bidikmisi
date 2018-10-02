@@ -33,6 +33,10 @@ class Migration_Alter_table_mahasiswa_1 extends CI_Migration
 {
 	public function up()
 	{	
+		echo "  > activate extension pg_trgm ... ";
+		$this->db->query("create extension pg_trgm");
+		echo "OK\n";
+		
 		echo "  > create index idx_notif_mhs, idx_efail_email, idx_mhs_nama ... ";
 		$this->db->query("create index idx_notif_mhs on notifikasi_email (mahasiswa_id)");
 		$this->db->query("create index idx_efail_email on email_fail using hash (email)");
@@ -42,6 +46,7 @@ class Migration_Alter_table_mahasiswa_1 extends CI_Migration
 		echo "  > alter table mahasiswa ... ";
 		$this->dbforge->add_column('mahasiswa', 'jumlah_notif INT NOT NULL DEFAULT 0');
 		$this->dbforge->add_column('mahasiswa', 'email_fail INT NOT NULL DEFAULT 0');
+		$this->dbforge->add_column('mahasiswa', 'id_pdpt UUID NULL');
 		$this->db->query("update mahasiswa set jumlah_notif = (select count(*) from notifikasi_email n where n.mahasiswa_id = mahasiswa.id)");
 		$this->db->query("update mahasiswa set email_fail = (select count(*) from email_fail e where e.email = mahasiswa.email)");
 		echo "OK\n";
@@ -52,12 +57,17 @@ class Migration_Alter_table_mahasiswa_1 extends CI_Migration
 		echo "  > rollback table mahasiswa ... ";
 		$this->dbforge->drop_column('mahasiswa', 'jumlah_notif');
 		$this->dbforge->drop_column('mahasiswa', 'email_fail');
+		$this->dbforge->drop_column('mahasiswa', 'id_pdpt');
 		echo "OK\n";
 		
 		echo "  > drop index idx_notif_mhs, idx_efail_email, idx_mhs_nama ... ";
 		$this->db->query("drop index idx_notif_mhs");
 		$this->db->query("drop index idx_efail_email");
 		$this->db->query("drop index idx_mhs_nama");
+		echo "OK\n";
+		
+		echo "  > disable extension pg_trgm ... ";
+		$this->db->query("drop extension pg_trgm");
 		echo "OK\n";
 	}
 }
