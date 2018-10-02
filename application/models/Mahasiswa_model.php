@@ -85,7 +85,7 @@ class Mahasiswa_model extends CI_Model
 			// dimulai kolom ke 3
 			if ($dt_params['order'][0]['column'] >= 1 && $dt_params['order'][0]['column'] <= 11)
 			{
-				$query = $query->order_by("{$dt_params['order'][0]['column']}", $dt_params['order'][0]['dir']);
+				$query = $query->order_by($dt_params['order'][0]['column'] + 1, $dt_params['order'][0]['dir']);
 			}
 		}
 		
