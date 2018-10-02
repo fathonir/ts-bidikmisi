@@ -31,14 +31,8 @@
         </div>
 				
 		<div class="col-lg-5">
-			<h3 style="margin-top: 10px">Hal yang perlu diperhatikan</h3>
-			<ul>
-				<li>Jika tidak mengetahui akun login, silahkan buka link berikut ini : <a href="{site_url('/akunku')}">{site_url('/akunku')}</a></li>
-				<li>Username & password yang resmi hanya yang berasal dari Kemenristekdikti yang dikirim melalui email.</li>
-				<li>Pastikan mengisi isian captcha agar bisa login</li>
-				<li>Selalu Logout setelah menggunakan sistem</li>
-			</ul>
-			<h3>Daftar Kontak Person</h3>
+			
+			<h3>Kontak Person</h3>
 			<table class="table table-condensed">
 				<tbody>
 					<tr>
@@ -71,6 +65,14 @@
 					</tr>
 				</tbody>
 			</table>
+			
+			<h3 style="margin-top: 10px">Hal yang perlu diperhatikan</h3>
+			<ul>
+				<li>Jika tidak mengetahui akun login, silahkan buka link berikut ini : <a href="{site_url('/akunku')}">{site_url('/akunku')}</a></li>
+				<li>Username & password yang resmi hanya yang berasal dari Kemenristekdikti yang dikirim melalui email.</li>
+				<li>Pastikan mengisi isian captcha agar bisa login</li>
+				<li>Selalu Logout setelah menggunakan sistem</li>
+			</ul>
 		</div>
     </div>
 {/block}
