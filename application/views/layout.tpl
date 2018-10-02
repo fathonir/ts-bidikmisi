@@ -82,7 +82,16 @@
 							<li>
 								<a href="{site_url('auth/logout')}">Logout ({$ci->session->user->username})</a>
 							</li>
-						</ul>	
+						</ul>
+							
+					{else}
+						
+						<ul class="nav navbar-nav">
+							<li><a href="{site_url()}">Login</a></li>
+							<li><a href="{site_url('akunku')}">Akunku</a></li>
+							<li><a href="{site_url('lapor-diri')}">Lapor Diri</a></li>
+						</ul>
+						
 					{/if}
 
 				</div><!--/.nav-collapse -->

@@ -11,6 +11,7 @@ application/cache/*
 application/logs/*
 !application/logs/index.html
 !application/*/.htaccess
+application/config/pddikti_api.php
 
 # Composer Related
 composer.phar

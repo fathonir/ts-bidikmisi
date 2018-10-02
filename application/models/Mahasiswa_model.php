@@ -32,6 +32,18 @@
  */
 class Mahasiswa_model extends CI_Model
 {
+	/** @var int */
+	public $id;
+	
+	/** @var string */
+	public $kode_pt;
+	
+	/** @var string */
+	public $kode_prodi;
+	
+	/** @var string */
+	public $nama_mahasiswa;
+	
 	public function list_all_for_dt($dt_params)
 	{
 		$result = new stdClass();
@@ -191,5 +203,19 @@ class Mahasiswa_model extends CI_Model
 			->where(['mahasiswa.id' => $id])
 			->limit(1)
 			->get()->row();
+	}
+	
+	/**
+	 * @param string $kode_pt
+	 * @param string $nim
+	 * @return Mahasiswa_model 
+	 */
+	public function get_by_nim($kode_pt, $nim)
+	{
+		return $this->db->from('mahasiswa')
+			->where('kode_pt', $kode_pt)
+			->where('nim', $nim)
+			->limit(1)
+			->get()->first_row();
 	}
 }

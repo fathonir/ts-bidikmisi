@@ -43,18 +43,18 @@
 				</div>
 	
 				
-					<div class="form-group">
-						<div class="col-md-4"></div>
-						<div class="col-md-8">
-							{if $smarty.post}
-								{if !isset($account)}
-									<a href="{current_url()}" class="btn btn-default">Ulangi</a>
-								{/if}
-							{else}
-								<input type="submit" class="btn btn-primary" value="Ambil" />
+				<div class="form-group">
+					<div class="col-md-4"></div>
+					<div class="col-md-8">
+						{if $smarty.post}
+							{if !isset($account)}
+								<a href="{current_url()}" class="btn btn-default">Ulangi</a>
 							{/if}
-						</div>
+						{else}
+							<input type="submit" class="btn btn-primary" value="Ambil" />
+						{/if}
 					</div>
+				</div>
 				
 				
 			</form>
@@ -95,7 +95,7 @@
 		<div class="col-lg-6">
 			<ul>
 				<li>Isi nama lengkap bukan nama panggilan</li>
-				<li>Jika data anda tidak ditemukan, maka data kelulusan anda belum terlaporkan ke PDDikti. Silahkan menghubungi pihak pengelola bidikmisi di perguruan tinggi anda.</li>
+				<li>Jika data anda tidak ditemukan, maka data kelulusan anda belum terlaporkan. Silahkan buka link <a href="{site_url('lapor-diri')}">Lapor Diri</a> untuk melaporkan diri anda untuk bisa login.</li>
 				<li><a href="{site_url()}">Klik disini</a> untuk kembali ke halaman login</li>
 			</ul>
 		</div>
