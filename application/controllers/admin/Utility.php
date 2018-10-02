@@ -28,6 +28,7 @@
  * Description of Tools
  *
  * @author Fathoni <m.fathoni@mail.com>
+ * @property User_model $user_model
  */
 class Utility extends MY_Controller
 {
@@ -37,12 +38,10 @@ class Utility extends MY_Controller
 	public function generate_user_login()
 	{
 		$this->load->helper('string');
+		$this->load->model('User_model');
 		
 		// Mendapatkan seri user tertinggi terakhir
-		$seri_terakhir = (int)$this->db->select('max(substring(username from 5)) as seri_terakhir', FALSE)
-			->from('user')
-			->where('tipe_user', TIPE_USER_NORMAL)
-			->get()->row()->seri_terakhir;
+		$seri_terakhir = $this->user_model->get_seri_terakhir();
 			
 		foreach ($this->mahasiswa_model->list_all_tanpa_login() as $mahasiswa)
 		{
