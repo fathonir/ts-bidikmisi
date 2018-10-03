@@ -108,6 +108,69 @@ class Reporting extends MY_Controller
 		$this->smarty->display();
 	}
 	
+	public function per_tahun_lulus()
+	{
+		$data_set = $this->db->query(
+			"with 
+			t1 as (
+				select tahun_lulus, count(*) as mahasiswa from mahasiswa
+				group by tahun_lulus),
+			t2 as (
+				select tahun_lulus, count(*) as tracer from mahasiswa
+				where id in (select mahasiswa_id from plot_survei)
+				group by tahun_lulus)
+			select t1.*, t2.tracer from t1
+			left join t2 on t2.tahun_lulus = t1.tahun_lulus
+			order by 1")->result();
+		
+		// labels name
+		$labels = array();
+		// dataset
+		$dataset_1 = array();
+		$dataset_2 = array();
+		
+		foreach ($data_set as $data)
+		{
+			array_push($labels, $data->tahun_lulus != '' ? "{$data->tahun_lulus}" : 'X');
+			array_push($dataset_1, $data->mahasiswa);
+			array_push($dataset_2, $data->tracer);
+		}
+		
+		$this->smarty->assign('labels', json_encode($labels));
+		$this->smarty->assign('dataset_1', json_encode($dataset_1));
+		$this->smarty->assign('dataset_2', json_encode($dataset_2));
+		
+		$this->smarty->display();
+	}
+	
+	public function isian_tracer()
+	{
+		$data_set = $this->db->query(
+			"select to_char(waktu_pelaksanaan, 'YYYY-MM-DD') tanggal, count(*) tracer from plot_survei
+			group by to_char(waktu_pelaksanaan, 'YYYY-MM-DD')
+			order by 1 desc
+			limit 30")->result();
+		
+		// labels name
+		$labels = array();
+		// dataset
+		$dataset_1 = array();
+		
+		foreach ($data_set as $data)
+		{
+			array_push($labels, date('d/m', strtotime($data->tanggal)));
+			array_push($dataset_1, $data->tracer);
+		}
+		
+		$labels = array_reverse($labels);
+		$dataset_1 = array_reverse($dataset_1);
+		
+		$this->smarty->assign('labels', json_encode($labels));
+		$this->smarty->assign('dataset_1', json_encode($dataset_1));
+		
+		$this->smarty->display();
+	}
+	
 	public function data_csv()
 	{
 		header('Pragma: public');

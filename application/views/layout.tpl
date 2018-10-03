@@ -58,6 +58,8 @@
 									<ul class="dropdown-menu">
 										<li><a href="{site_url('admin/reporting/per-program-studi')}">Per Program Studi</a></li>
 										<li><a href="{site_url('admin/reporting/per-perguruan-tinggi')}">Per Perguruan Tinggi</a></li>
+										<li><a href="{site_url('admin/reporting/per-tahun-lulus')}">Per Tahun lulus</a></li>
+										<li><a href="{site_url('admin/reporting/isian-tracer')}">Isian 30 Hari Terakhir</a></li>
 									</ul>
 								</li>
 								<!--
