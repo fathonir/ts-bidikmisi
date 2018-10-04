@@ -48,10 +48,22 @@ class Tools extends CI_Controller
 				->join('pdpt.perguruan_tinggi pt', 'pt.kode_perguruan_tinggi = m.kode_pt', 'LEFT')
 				->join('pdpt.institusi i', 'i.id_institusi = pt.id_institusi', 'LEFT')
 				->join('pdpt.program_studi ps', 'ps.kode_perguruan_tinggi = m.kode_pt AND ps.kode_program_studi = m.kode_prodi', 'LEFT')
+				->where('m.tahun_lulus <=', 2016)	// Filter hingga lulusan 2016 saja
 				->where('m.id not in (select mahasiswa_id from plot_survei where survei_id = 1)', NULL, FALSE)	// Survei_id = 1 untuk kuesioner tahun 2018
+				->where_not_in('m.email', [
+					'kemahasiswaan.kesma@gmail.com', 'bidikmisiunhalu@gmail.com', 'erwinnurdin27@yahoo.co.id', 'bidikmisi@polsri.ac.id', 
+					'pelkesmaunram@yahoo.co.id', 'comdev.untan@yahoo.com', 'polnes@polnes.ac.id', 'unram.kemahasiswa@gmail.com',
+					'2a@mail.ugm.ac.id', '1a@mail.ugm.ac.id', 'Syazeli_syazeli@yahoo.com', 'beasiswa@unp.ac.id', 'kesmawaunib@yahoo.co.id',
+					'bidikmisi@pnl.ac.id', 'baaksi@polinela.ac.id', 'alumnibidikmisi12@gmail.com', 'jason.harsono@gmail.com',
+					'baak@polman-bandung.ac.id', 'email@email.comporgas', 'leni.apriliya74@gmail.com', 'paul.dala@yahoo.co.id',
+					'unpad.kemahasiswaan@gmail.com', 'gustiayumadewiniantari@pnb.ac.id', 'erisumantri@gmail.com', 'beasiswa@baak.unp.ac.ic',
+					'beasiswa@baak.unp.ac.id', 'kemahasiswaanunpatti@yahoo.com', 'kemahasiswaanunpatti@yahoo.com'])
+				//->where("((m.updated_at = '2018-08-16 12:49:59.995' or m.updated_at = '2018-08-16 12:50:00') or (m.created_at = '2018-08-16 12:49:59.995' or m.created_at = '2018-08-16 12:50:00'))", NULL, FALSE)	// filter data baru
 				->get()->result();
 		
 		echo "OK\n";
+
+		//echo count($data_set); exit();
 
 		echo "  > Ambil template email ... ";
 
