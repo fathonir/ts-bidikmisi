@@ -36,8 +36,8 @@
 			<table class="table table-condensed">
 				<tbody>
 					<tr>
-						<td>Adi</td>
-						<td>0858 7897 7702</td>
+						<td><img height="32" width="32" src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/whatsapp.svg" /></td>
+						<td>0813 3533 6586</td>
 					</tr>
 					<tr>
 						<td>Jehan</td>
@@ -62,6 +62,10 @@
 					<tr>
 						<td>Ghio</td>
 						<td>0852 7258 2224</td>
+					</tr>
+					<tr>
+						<td>Adi</td>
+						<td>0858 7897 7702 (WhatsApp saja)</td>
 					</tr>
 				</tbody>
 			</table>
