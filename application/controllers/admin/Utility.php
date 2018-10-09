@@ -38,7 +38,7 @@ class Utility extends MY_Controller
 	public function generate_user_login()
 	{
 		$this->load->helper('string');
-		$this->load->model('User_model');
+		$this->load->model('user_model');
 		
 		// Mendapatkan seri user tertinggi terakhir
 		$seri_terakhir = $this->user_model->get_seri_terakhir();
