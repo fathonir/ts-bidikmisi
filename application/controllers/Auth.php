@@ -308,7 +308,6 @@ class Auth extends CI_Controller
 
 		// Mengambil seri terakhir
 		$seri_terakhir = $this->user_model->get_seri_terakhir();
-		$seri_terakhir++;
 
 		$new_user					= new stdClass();
 		$new_user->username			= 'BM' . $tahun . str_pad($seri_terakhir, 6, '0', STR_PAD_LEFT);

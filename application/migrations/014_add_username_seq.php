@@ -25,15 +25,27 @@
  */
 
 /**
- * Description of User_model
+ * Description of 014_add_username_seq
  *
  * @author Fathoni <m.fathoni@mail.com>
- * @property CI_DB_query_builder $db 
+ * @property CI_DB_result $result
  */
-class User_model extends CI_Model
+class Migration_Add_username_seq extends CI_Migration
 {
-	public function get_seri_terakhir()
+	public function up()
 	{
-		return (int)$this->db->query("select nextval('username_seq') username_number")->row()->username_number;
+		echo "  > create sequence username_seq ... ";
+		$this->db->query("create sequence username_seq");
+		$this->result = $this->db->query("select max(substring(username, 6))::int + 1 as seri from \"user\"");
+		$seri = $this->result->first_row()->seri;
+		$this->db->query("alter sequence username_seq restart with {$seri}");
+		echo "OK\n";
+	}
+	
+	public function down()
+	{
+		echo "  > drop sequence username_seq ... ";
+		$this->db->query("drop sequence username_seq");
+		echo "OK\n";
 	}
 }

@@ -40,12 +40,10 @@ class Utility extends MY_Controller
 		$this->load->helper('string');
 		$this->load->model('user_model');
 		
-		// Mendapatkan seri user tertinggi terakhir
-		$seri_terakhir = $this->user_model->get_seri_terakhir();
-			
 		foreach ($this->mahasiswa_model->list_all_tanpa_login() as $mahasiswa)
 		{
-			$seri_terakhir++;
+			// Mendapatkan seri user tertinggi terakhir
+			$seri_terakhir = $this->user_model->get_seri_terakhir();
 			
 			// Baca tahun masuk bila ada dan jika tidak ada baca tahun lulus, jika tidak diketahui set 00
 			$tahun						= 
