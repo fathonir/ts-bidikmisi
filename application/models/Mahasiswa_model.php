@@ -54,9 +54,21 @@ class Mahasiswa_model extends CI_Model
 		// Count Filtered
 		if ($dt_params['search']['value'] != '')
 		{
-			$result->recordsFiltered = $this->db
-				->like('lower(nama_mahasiswa)', strtolower($dt_params['search']['value']), null, false)
-				->count_all_results('mahasiswa');
+			$search_value = strtolower($dt_params['search']['value']);
+			
+			// Jika angka, asumsi search by telp
+			if (is_numeric($search_value))
+			{
+				$result->recordsFiltered = $this->db
+					->like('no_hp', $search_value, null, false)
+					->count_all_results('mahasiswa');
+			}
+			else
+			{
+				$result->recordsFiltered = $this->db
+					->like('lower(nama_mahasiswa)', $search_value, null, false)
+					->count_all_results('mahasiswa');
+			}
 		}
 		else
 		{
@@ -77,7 +89,15 @@ class Mahasiswa_model extends CI_Model
 		
 		if ($dt_params['search']['value'] != '')
 		{
-			$query = $query->like('lower(nama_mahasiswa)', strtolower($dt_params['search']['value']), null, false);	
+			// Jika angka, asumsi search by telp
+			if (is_numeric($dt_params['search']['value']))
+			{
+				$query = $query->like('no_hp', strtolower($dt_params['search']['value']), null, false);	
+			}
+			else
+			{
+				$query = $query->like('lower(nama_mahasiswa)', strtolower($dt_params['search']['value']), null, false);	
+			}
 		}
 		
 		if (isset($dt_params['order']))
