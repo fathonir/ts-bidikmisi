@@ -80,6 +80,10 @@ class Cron extends CI_Controller
 					'waktu_kirim'	=> date('Y-m-d H:i:s')
 				]);
 				
+				$this->db->set('jumlah_notif = jumlah_notif + 1', NULL, FALSE);
+				$this->db->where('id', $data->mahasiswa_id);
+				$this->db->update('mahasiswa');
+				
 				$this->db->trans_commit();
 				
 				echo "OK\n";
