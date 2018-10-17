@@ -71,15 +71,19 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label for="nama" class="control-label">Nama</label>
-									<p class="form-control-static" name="nama_mahasiswa"></p>
+									<input type="text" class="form-control" name="nama_mahasiswa" />
 								</div>
 								<div class="form-group">
 									<label for="nama" class="control-label">NIM</label>
 									<p class="form-control-static" name="nim"></p>
 								</div>
 								<div class="form-group">
-									<label for="nama" class="control-label">Email</label>
-									<input type="email" class="form-control" name="email" />
+									<label for="nama" class="control-label">Perguruan Tinggi</label>
+									<p class="form-control-static" name="nama_pt"></p>
+								</div>
+								<div class="form-group">
+									<label for="nama" class="control-label">Program Studi</label>
+									<select name="program_studi" class="form-control"></select>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -94,6 +98,10 @@
 								<div class="form-group">
 									<label for="nama" class="control-label">No HP / Telp</label>
 									<input type="text" class="form-control" name="no_hp" />
+								</div>
+								<div class="form-group">
+									<label for="nama" class="control-label">Email</label>
+									<input type="email" class="form-control" name="email" />
 								</div>
 							</div>
 						</div>
@@ -244,7 +252,6 @@
 			
 			$('#editMahasiswaModal').on('show.bs.modal', function (event) {
 				var button = $(event.relatedTarget);
-				var modal = $(this);
 				
 				$.ajax({
 					type: 'GET',
@@ -252,12 +259,22 @@
 					dataType: 'json',
 					success: function(data) {
 						$('#idMahasiswa2').val(button.data('id'));
-						$('p[name="nama_mahasiswa"]').html(data.nama_mahasiswa);
+						$('input[name="nama_mahasiswa"]').val(data.nama_mahasiswa);
 						$('p[name="nim"]').html(data.nim);
+						$('p[name="nama_pt"]').html(data.nama_pt);
 						$('input[name="email"]').val(data.email);
 						$('input[name="no_hp"]').val(data.no_hp);
 						$('p[name="username"]').html(data.username);
 						$('p[name="password_plain"]').html(data.password_plain);
+						
+						// Kosongi
+						$('select[name="program_studi"]').html(null);
+						// Ambil data Prodi
+						$.getJSON('{site_url('auth/get-list-prodi')}', 'kode_pt=' + data.kode_perguruan_tinggi, function(dataProdi) {
+							$.each(dataProdi, function(key, val) {
+								$('select[name="program_studi"]').append(new Option(val.value, val.id, false, (val.id.trim() == data.kode_prodi)));
+							});
+						});
 					}
 				});
 				
@@ -270,10 +287,15 @@
 					data: $('#editMahasiswaForm').serialize(),
 					success: function(data) {
 						if (data === '1') {
+							var namaCell = $('#mahasiswa_' + $('#idMahasiswa2').val()).children('td:nth-child(5)');
+							var prodiCell = $('#mahasiswa_' + $('#idMahasiswa2').val()).children('td:nth-child(4)');
 							var emailCell = $('#mahasiswa_' + $('#idMahasiswa2').val()).children('td:nth-child(8)');
 							var nohpCell = $('#mahasiswa_' + $('#idMahasiswa2').val()).children('td:nth-child(10)');
+							namaCell.html($('input[name="nama_mahasiswa"]').val());
+							prodiCell.html($('select[name="program_studi"] option:selected').text());
 							emailCell.html($('input[name="email"]').val());
 							nohpCell.html($('input[name="no_hp"]').val());
+							alert('Data berhasil di update');
 						}
 						else {
 							alert('Ada kesalahan sistem ketika update');

@@ -233,10 +233,12 @@ class Mahasiswa_model extends CI_Model
 	public function get_single($id)
 	{
 		return $this->db
-			->select('mahasiswa.*, user.username, user.password_plain')
-			->from('mahasiswa')
-			->join('user', 'user.mahasiswa_id = mahasiswa.id', 'LEFT')
-			->where(['mahasiswa.id' => $id])
+			->select('m.id, pt.kode_perguruan_tinggi, i.nama_institusi as nama_pt, m.kode_prodi, nim, nama_mahasiswa, m.email, no_hp, user.username, user.password_plain')
+			->from('mahasiswa m')
+			->join('pdpt.perguruan_tinggi pt', 'pt.kode_perguruan_tinggi = m.kode_pt')
+			->join('pdpt.institusi i', 'i.id_institusi = pt.id_institusi')
+			->join('user', 'user.mahasiswa_id = m.id', 'LEFT')
+			->where(['m.id' => $id])
 			->get()->row();
 	}
 
