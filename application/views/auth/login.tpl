@@ -75,6 +75,7 @@
 				<li>Jika tidak mengetahui akun login, silahkan buka link berikut ini : <a href="{site_url('/akunku')}">{site_url('/akunku')}</a></li>
 				<li>Username & password yang resmi hanya yang berasal dari Kemenristekdikti yang dikirim melalui email.</li>
 				<li>Pastikan mengisi isian captcha agar bisa login</li>
+				<li>Apabila menghubungi kontak person harap menginfokan nama, NIM, dan asal perguruan tinggi</li>
 			</ul>
 		</div>
     </div>
