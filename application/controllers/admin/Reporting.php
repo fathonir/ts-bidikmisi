@@ -175,20 +175,18 @@ class Reporting extends MY_Controller
 	{
 		header('Pragma: public');
 		header('Content-type: text/csv');
-		header('Content-disposition: attachment;filename='.date('d-m-Y').'.csv');
+		header('Content-disposition: attachment;filename=data-mahasiswa-per-'.date('d-m-Y').'.csv');
 		
 		$sql = 
 			"select 
-				ua.username as admin, pt.kode_perguruan_tinggi,
-				i.nama_institusi as perguruan_tinggi, ps.nama_program_studi, m.nim, m.nama_mahasiswa, m.email, m.no_hp, u.username, u.password_plain as password,
+				i.nama_institusi as perguruan_tinggi, ps.nama_program_studi, m.nama_mahasiswa, m.email, 
+				(case when left(m.no_hp, 2) = '08' then '+62'||right(m.no_hp, -1) else m.no_hp end) as no_hp,
 				(case when plot.\"id\" is not null then 'sudah' else 'belum' end) as tracer
 			from mahasiswa m
 			join \"user\" u on u.mahasiswa_id = m.id
 			join pdpt.perguruan_tinggi pt on pt.kode_perguruan_tinggi = m.kode_pt
 			join pdpt.institusi i on i.id_institusi = pt.id_institusi
 			left join pdpt.program_studi ps on ps.kode_perguruan_tinggi = m.kode_pt and ps.kode_program_studi = m.kode_prodi
-			join plot_admin pa on pa.mahasiswa_id = m.id
-			join \"user\" ua on ua.\"id\" = pa.user_id
 			left join plot_survei plot on plot.mahasiswa_id = m.\"id\"";
 		
 		$this->load->dbutil();
