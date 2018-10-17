@@ -108,8 +108,13 @@
 					</form>		
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="saveButton">Simpan</button>
+					<div class="pull-left">
+						<button type="button" class="btn btn-danger" id="deleteButton">Hapus</button>
+					</div>
+					<div class="pull-right">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" id="saveButton">Simpan</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -165,7 +170,7 @@
 	<script type='text/javascript'>
 		$(document).ready(function() {
 			
-			$('#mahasiswaTable').dataTable({
+			var mahasiswaTable = $('#mahasiswaTable').DataTable({
 				stateSave: true,
 				lengthMenu: [ 10, 25, 50, 100, 250 ],
 				processing: true,
@@ -303,6 +308,26 @@
 						$('#editMahasiswaModal').modal('toggle');
 					}
 				});
+			});
+			
+			$('#deleteButton').on('click', function() {
+				if (confirm("Apakah data ini akan dihapus ?")) {
+					$.ajax({
+						type: 'POST',
+						url: "{site_url('admin/data-mahasiswa/delete-mahasiswa')}",
+						data: $('#editMahasiswaForm').serialize(),
+						success: function(data) {
+							if (data === '1') {
+								alert('Data berhasil di hapus');
+								mahasiswaTable.row($('#mahasiswa_' + $('#idMahasiswa2').val())).remove().draw();
+							}
+							else {
+								alert('Ada kesalahan sistem ketika hapus');
+							}
+							$('#editMahasiswaModal').modal('toggle');
+						}
+					});
+				}
 			});
 			
 		});

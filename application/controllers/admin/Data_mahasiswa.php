@@ -150,4 +150,38 @@ class Data_Mahasiswa extends MY_Controller
 
 		echo $update_result ? '1' : '0';
 	}
+	
+	public function delete_mahasiswa()
+	{
+		$delete_result = $this->db->update('mahasiswa', [
+			'nama_mahasiswa'	=> trim($this->input->post('nama_mahasiswa')),
+			'email'				=> $this->input->post('email'),
+			'no_hp'				=> $this->input->post('no_hp'),
+			'kode_prodi'		=> trim($this->input->post('program_studi'))
+		], ['id' => $this->input->post('id')]);
+
+		$this->db->trans_begin();
+		
+		$where_mahasiswa_id	= ['mahasiswa_id' => $this->input->post('id')];
+		$where_id			= ['id' => $this->input->post('id')];
+		
+		$this->db->delete('user', $where_mahasiswa_id);
+		$this->db->delete('email_outbox', $where_mahasiswa_id);
+		$this->db->delete('notifikasi_email', $where_mahasiswa_id);
+		$this->db->delete('plot_admin', $where_mahasiswa_id);
+		$this->db->delete('plot_survei', $where_mahasiswa_id);
+		$this->db->delete('hasil_survei', $where_mahasiswa_id);
+		$this->db->delete('mahasiswa', $where_id);
+		
+		if ($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			echo '0';
+		}
+		else
+		{
+			$this->db->trans_commit();
+			echo '1';
+		}
+	}
 }
