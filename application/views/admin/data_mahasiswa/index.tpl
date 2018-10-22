@@ -51,7 +51,8 @@
 			</table>
 			
 			<div class="text-center">
-				<a href="{site_url('admin/reporting/data-csv')}" class="btn btn-default" target="_blank">Export CSV</a>
+				<a href="{site_url('admin/reporting/data-csv/1')}" class="btn btn-default" target="_blank">Export CSV</a>
+				<a href="{site_url('admin/reporting/data-csv/2')}" class="btn btn-default" target="_blank">Export CSV Format 2</a>
 			</div>
 			
 		</div>

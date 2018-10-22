@@ -171,23 +171,42 @@ class Reporting extends MY_Controller
 		$this->smarty->display();
 	}
 	
-	public function data_csv()
+	public function data_csv($format = 1)
 	{
 		header('Pragma: public');
 		header('Content-type: text/csv');
 		header('Content-disposition: attachment;filename=data-mahasiswa-per-'.date('d-m-Y').'.csv');
 		
-		$sql = 
-			"select 
-				i.nama_institusi as perguruan_tinggi, ps.nama_program_studi, m.nama_mahasiswa, m.email, 
-				(case when left(m.no_hp, 2) = '08' then '+62'||right(m.no_hp, -1) else m.no_hp end) as no_hp,
-				(case when plot.\"id\" is not null then 'sudah' else 'belum' end) as tracer
-			from mahasiswa m
-			join \"user\" u on u.mahasiswa_id = m.id
-			join pdpt.perguruan_tinggi pt on pt.kode_perguruan_tinggi = m.kode_pt
-			join pdpt.institusi i on i.id_institusi = pt.id_institusi
-			left join pdpt.program_studi ps on ps.kode_perguruan_tinggi = m.kode_pt and ps.kode_program_studi = m.kode_prodi
-			left join plot_survei plot on plot.mahasiswa_id = m.\"id\"";
+		if ($format == 1)
+		{
+			$sql = 
+				"select 
+					i.nama_institusi as perguruan_tinggi, ps.nama_program_studi, m.nama_mahasiswa, m.email, 
+					(case when left(m.no_hp, 2) = '08' then '+62'||right(m.no_hp, -1) else m.no_hp end) as no_hp,
+					(case when plot.\"id\" is not null then 'sudah' else 'belum' end) as tracer
+				from mahasiswa m
+				join \"user\" u on u.mahasiswa_id = m.id
+				join pdpt.perguruan_tinggi pt on pt.kode_perguruan_tinggi = m.kode_pt
+				join pdpt.institusi i on i.id_institusi = pt.id_institusi
+				left join pdpt.program_studi ps on ps.kode_perguruan_tinggi = m.kode_pt and ps.kode_program_studi = m.kode_prodi
+				left join plot_survei plot on plot.mahasiswa_id = m.\"id\"";
+		}
+		
+		if ($format == 2)
+		{
+			$sql = 
+				"select 
+					u.username||' '||u.password_plain as \"login\", 
+					(case when left(m.no_hp, 2) = '08' then '+62'||right(m.no_hp, -1) else m.no_hp end) as no_hp
+				from mahasiswa m
+				join \"user\" u on u.mahasiswa_id = m.id
+				where 
+					m.id not in (select mahasiswa_id from plot_survei) 
+					and m.tahun_lulus <= 2016
+					and m.no_hp not in (
+						select no_hp from mahasiswa where no_hp is not null
+						group by no_hp having count(*) > 2)";
+		}
 		
 		$this->load->dbutil();
 
