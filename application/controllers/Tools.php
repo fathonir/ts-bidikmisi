@@ -1,4 +1,7 @@
 <?php
+require FCPATH . 'vendor/autoload.php';
+
+use Curl\Curl;
 
 /*
  * The MIT License
@@ -29,10 +32,11 @@
  *
  * @author Fathoni <m.fathoni@mail.com>
  * @property CI_DB_query_builder $db
+ * @property CI_Loader $load 
  */
 class Tools extends CI_Controller
 {
-
+	
 	public function generate_all_outbox_email()
 	{
 		$this->load->helper('email');
@@ -111,4 +115,124 @@ class Tools extends CI_Controller
 		exit(0);
 	}
 
+	public function fix_missing_tahun_masuk()
+	{
+		// Ambil mahasiswa yang tahun_masuk nya bermasalah
+		echo 'Ambil mahasiswa yang tahun_masuk bermasalah ... ';
+		$mahasiswa_set = $this->db
+			->select('id, kode_pt, kode_prodi, nim, nama_mahasiswa, tahun_masuk, tahun_lulus, id_pdpt')
+			->from('mahasiswa')
+			->where('tahun_masuk IS NULL', NULL, FALSE)
+			->or_where('tahun_masuk >=', 2018)
+			->or_where('tahun_masuk <', 2009)
+			->get()->result();
+		echo "OK\n";
+		
+		$count_updated = 0;
+		
+		foreach ($mahasiswa_set as $mahasiswa)
+		{
+			echo "Proses {$mahasiswa->kode_pt} {$mahasiswa->kode_prodi} {$mahasiswa->nim} {$mahasiswa->nama_mahasiswa} ... ";
+			echo "cek data pddikti ... ";
+			
+			$respone = $this->pddikti_mahasiswa($mahasiswa->kode_pt, $mahasiswa->kode_prodi, $mahasiswa->nim);
+			
+			if ($respone != NULL)
+			{
+				echo "update db ... ";
+				
+				$pddikti_mahasiswa = $respone[0];
+				
+				$this->db->update('mahasiswa', [
+					'tahun_masuk' => substr($pddikti_mahasiswa->terdaftar->tgl_masuk, 0, 4),
+					'id_pdpt' => $pddikti_mahasiswa->id,
+					'updated_at' => date('Y-m-d H:i:s')
+				], ['id' => $mahasiswa->id]);
+				
+				echo "OK\n";
+				
+				$count_updated++;
+			}
+			else
+			{
+				echo "tidak ditemukan.\n";
+			}
+		}
+		
+		echo "Jumlah data diperbarui = {$count_updated}";
+	}
+	
+	public function fix_missing_tahun_lulus()
+	{
+		echo 'Ambil mahasiswa yang tahun_masuk bermasalah ... ';
+		$mahasiswa_set = $this->db
+			->select('id, kode_pt, kode_prodi, nim, nama_mahasiswa, tahun_masuk, tahun_lulus, id_pdpt')
+			->from('mahasiswa')
+			->where('tahun_lulus IS NULL', NULL, FALSE)
+			->or_where('tahun_lulus >', 2018)
+			->or_where('tahun_lulus <', 2013)
+			->get()->result();
+		echo "OK\n";
+		
+		$count_updated = 0;
+		
+		foreach ($mahasiswa_set as $mahasiswa)
+		{
+			echo "Proses {$mahasiswa->kode_pt} {$mahasiswa->kode_prodi} {$mahasiswa->nim} {$mahasiswa->nama_mahasiswa} ... ";
+			echo "cek data pddikti ... ";
+			
+			$respone = $this->pddikti_mahasiswa($mahasiswa->kode_pt, $mahasiswa->kode_prodi, $mahasiswa->nim);
+			
+			if ($respone != NULL)
+			{
+				echo "update db ... ";
+				
+				$pddikti_mahasiswa = $respone[0];
+				
+				if ($pddikti_mahasiswa->terdaftar->tgl_keluar != NULL)
+				{
+					$this->db->update('mahasiswa', [
+						'tahun_lulus' => substr($pddikti_mahasiswa->terdaftar->tgl_keluar, 0, 4),
+						'id_pdpt' => $pddikti_mahasiswa->id,
+						'updated_at' => date('Y-m-d H:i:s')
+					], ['id' => $mahasiswa->id]);
+
+					echo "OK\n";
+				}
+				else
+				{
+					echo "tanggal lulus belum ada.\n";
+				}
+				
+				$count_updated++;
+			}
+			else
+			{
+				echo "tidak ditemukan.\n";
+			}
+		}
+		
+		echo "Jumlah data diperbarui = {$count_updated}";
+	}
+	
+	private function pddikti_mahasiswa($kode_pt, $kode_prodi, $nim)
+	{
+		$endpoint = 'https://api.ristekdikti.go.id:8243/pddikti/1.0';
+		$access_token = 'd3f25dda-36dd-345c-89da-1473d5045f17';
+		
+		$curl = new Curl();
+		$curl->setHeader('Accept', 'application/json');
+		$curl->setHeader('Authorization', "Bearer {$access_token}");		
+		$curl->setOpt(CURLOPT_SSL_VERIFYPEER, FALSE);
+		$curl->get("{$endpoint}/pt/{$kode_pt}/prodi/{$kode_prodi}/mahasiswa/{$nim}");
+		
+		if ($curl->error)
+		{
+			return NULL;
+		}
+		else
+		{
+			return $curl->response;
+		}
+	}
 }
