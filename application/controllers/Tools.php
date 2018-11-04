@@ -224,7 +224,7 @@ class Tools extends CI_Controller
 		$curl->setHeader('Accept', 'application/json');
 		$curl->setHeader('Authorization', "Bearer {$access_token}");		
 		$curl->setOpt(CURLOPT_SSL_VERIFYPEER, FALSE);
-		$curl->get("{$endpoint}/pt/{$kode_pt}/prodi/{$kode_prodi}/mahasiswa/{$nim}");
+		$curl->get("{$endpoint}/pt/{$kode_pt}/prodi/{$kode_prodi}/mahasiswa/" . urlencode($nim));
 		
 		if ($curl->error)
 		{
