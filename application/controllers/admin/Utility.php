@@ -45,10 +45,17 @@ class Utility extends MY_Controller
 			// Mendapatkan seri user tertinggi terakhir
 			$seri_terakhir = $this->user_model->get_seri_terakhir();
 			
-			// Baca tahun masuk bila ada dan jika tidak ada baca tahun lulus, jika tidak diketahui set 00
-			$tahun						= 
-				($mahasiswa->tahun_masuk != '') ? substr($mahasiswa->tahun_masuk, -2) : 
-				($mahasiswa->tahun_lulus != '') ? substr($mahasiswa->tahun_lulus, -2) : '00';
+			// Tahun default 00, jika ada tahun masuk pakai tahun masuk, jika tidak pakai tahun lulus.
+			$tahun = '00';
+			
+			if ($mahasiswa->tahun_masuk != '')
+			{
+				$tahun = substr($mahasiswa->tahun_masuk, -2);
+			}
+			else if ($mahasiswa->tahun_lulus != '')
+			{
+				$tahun = substr($mahasiswa->tahun_lulus, -2);
+			}
 			
 			$new_user					= new stdClass();
 			$new_user->username			= 'BM' . $tahun . str_pad($seri_terakhir, 6, '0', STR_PAD_LEFT);
