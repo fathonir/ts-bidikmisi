@@ -37,7 +37,7 @@ use Curl\Curl;
 class Tools extends CI_Controller
 {
 	
-	public function generate_all_outbox_email()
+	public function generate_outbox_email()
 	{
 		$this->load->helper('email');
 
