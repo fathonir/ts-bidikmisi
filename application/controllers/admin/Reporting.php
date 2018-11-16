@@ -95,7 +95,7 @@ class Reporting extends MY_Controller
 						left join plot_survei plot on plot.mahasiswa_id = m.\"id\"
 						join pdpt.perguruan_tinggi pt on pt.kode_perguruan_tinggi = m.kode_pt
 						join pdpt.institusi i on i.id_institusi = pt.id_institusi
-						where m.tahun_lulus <= 2016 and m.tahun_lulus is null
+						where m.tahun_lulus <= 2016 or m.tahun_lulus is null
 					) tabel
 					group by nama_pt
 				) tabel";
